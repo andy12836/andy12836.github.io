@@ -1,0 +1,2204 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>保一專業課程與民防法令題庫複習</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#eef2ff',
+              100: '#e0e7ff',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Mobile-first scrolling & touch tap highlights */
+    * {
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+    input, textarea {
+      user-select: text;
+    }
+    /* Hide scrollbars for clean tab bar */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    /* Smooth transition for card elements */
+    .card-transition {
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+  </style>
+</head>
+<body class="h-full bg-slate-100 dark:bg-slate-900 text-slate-800 dark:text-slate-100 font-sans antialiased flex flex-col justify-between">
+
+  <div class="w-full max-w-md mx-auto min-h-screen flex flex-col bg-white dark:bg-slate-900 shadow-xl relative pb-24">
+    
+    <!-- Top Fixed Header -->
+    <header class="sticky top-0 z-30 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 px-4 py-3">
+      <div class="flex items-center justify-between mb-2">
+        <div class="flex items-center space-x-2">
+          <div class="w-8 h-8 rounded-lg bg-indigo-600 text-white flex items-center justify-center font-bold text-sm shadow-sm">
+            <i class="fa-solid fa-shield-halved"></i>
+          </div>
+          <div>
+            <h1 class="text-sm font-bold tracking-tight text-slate-800 dark:text-white leading-tight">保一考古題複習</h1>
+            <p class="text-[11px] text-slate-500 dark:text-slate-400">消防・防情・民防・警察勤務</p>
+          </div>
+        </div>
+
+        <!-- Mode & Dark Mode Actions -->
+        <div class="flex items-center space-x-1.5">
+          <button id="themeToggleBtn" onclick="toggleTheme()" class="p-2 rounded-full text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 dark:text-slate-300 text-sm">
+            <i class="fa-solid fa-moon dark:hidden"></i>
+            <i class="fa-solid fa-sun hidden dark:inline"></i>
+          </button>
+          <button onclick="openResetModal()" title="重設進度" class="p-2 rounded-full text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 dark:text-slate-300 text-sm">
+            <i class="fa-solid fa-rotate-right"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-4 gap-1 p-1 bg-slate-100 dark:bg-slate-800 rounded-xl text-xs font-medium">
+        <button id="mode-practice" onclick="switchMode('practice')" class="py-1.5 rounded-lg text-center transition-all bg-white dark:bg-slate-700 shadow-sm text-indigo-600 dark:text-indigo-300 font-bold">
+          <i class="fa-solid fa-bolt mr-1"></i>練習
+        </button>
+        <button id="mode-exam" onclick="switchMode('exam')" class="py-1.5 rounded-lg text-center transition-all text-slate-600 dark:text-slate-300">
+          <i class="fa-solid fa-clipboard-check mr-1"></i>測驗
+        </button>
+        <button id="mode-mistakes" onclick="switchMode('mistakes')" class="py-1.5 rounded-lg text-center transition-all text-slate-600 dark:text-slate-300 relative">
+          <i class="fa-solid fa-circle-xmark mr-1"></i>錯題
+          <span id="mistakeBadge" class="hidden absolute -top-1 -right-1 px-1 bg-rose-500 text-white text-[9px] rounded-full">0</span>
+        </button>
+        <button id="mode-starred" onclick="switchMode('starred')" class="py-1.5 rounded-lg text-center transition-all text-slate-600 dark:text-slate-300 relative">
+          <i class="fa-solid fa-star mr-1"></i>收藏
+          <span id="starredBadge" class="hidden absolute -top-1 -right-1 px-1 bg-amber-500 text-white text-[9px] rounded-full">0</span>
+        </button>
+      </div>
+
+      <div class="mt-2.5 flex items-center space-x-1.5 overflow-x-auto no-scrollbar py-0.5 text-[11px]">
+        <button onclick="setFilter('all')" class="unit-filter-btn shrink-0 px-2.5 py-1 rounded-full border border-indigo-500 bg-indigo-50 dark:bg-indigo-950/50 text-indigo-600 dark:text-indigo-300 font-medium" data-unit="all">全部 (110)</button>
+        <button onclick="setFilter('u1')" class="unit-filter-btn shrink-0 px-2.5 py-1 rounded-full border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300" data-unit="u1">消防逃生(25)</button>
+        <button onclick="setFilter('u2')" class="unit-filter-btn shrink-0 px-2.5 py-1 rounded-full border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300" data-unit="u2">防情傳遞(20)</button>
+        <button onclick="setFilter('u3')" class="unit-filter-btn shrink-0 px-2.5 py-1 rounded-full border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300" data-unit="u3">替代民防(10)</button>
+        <button onclick="setFilter('u4')" class="unit-filter-btn shrink-0 px-2.5 py-1 rounded-full border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300" data-unit="u4">民防法令(20)</button>
+        <button onclick="setFilter('u5')" class="unit-filter-btn shrink-0 px-2.5 py-1 rounded-full border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300" data-unit="u5">疏散避難(15)</button>
+        <button onclick="setFilter('u6')" class="unit-filter-btn shrink-0 px-2.5 py-1 rounded-full border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300" data-unit="u6">警察勤務(20)</button>
+      </div>
+
+      <!-- Real-time Progress Bar & Stats -->
+      <div class="mt-2.5 flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400">
+        <div class="flex items-center space-x-2">
+          <span id="progressText" class="font-bold text-slate-700 dark:text-slate-200">第 1 / 110 題</span>
+          <span id="modeBadgeText" class="px-1.5 py-0.5 rounded bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300 text-[10px]">即時回饋</span>
+        </div>
+        <div class="flex items-center space-x-2">
+          <span>正確率: <strong id="accuracyRate" class="text-indigo-600 dark:text-indigo-400 font-bold">0%</strong></span>
+          <span>已答: <span id="answeredCount">0</span></span>
+        </div>
+      </div>
+      <div class="w-full bg-slate-200 dark:bg-slate-700 h-1.5 rounded-full mt-1.5 overflow-hidden">
+        <div id="progressBar" class="bg-indigo-600 h-full transition-all duration-300" style="width: 1%"></div>
+      </div>
+    </header>
+
+    <main class="flex-1 px-4 py-3 flex flex-col justify-start">
+      
+      <!-- Empty State Container (for Starred / Mistakes when empty) -->
+      <div id="emptyContainer" class="hidden flex-1 flex flex-col items-center justify-center py-16 text-center">
+        <div class="w-16 h-16 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400 text-2xl mb-3">
+          <i id="emptyIcon" class="fa-solid fa-inbox"></i>
+        </div>
+        <h3 id="emptyTitle" class="text-base font-bold text-slate-700 dark:text-slate-200 mb-1">目前沒有題目</h3>
+        <p id="emptySub" class="text-xs text-slate-400 max-w-xs">切換至全部題目或練習模式開始刷題吧！</p>
+      </div>
+
+      <!-- Active Question Card -->
+      <div id="questionCard" class="card-transition">
+        
+        <!-- Question Unit & Type Header Tags -->
+        <div class="flex items-center justify-between mb-2">
+          <div class="flex items-center space-x-1.5">
+            <span id="badgeCategory" class="text-[11px] font-medium px-2 py-0.5 rounded-full bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800/60">
+              消防專業課程
+            </span>
+            <span id="badgeType" class="text-[11px] font-medium px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+              是非題
+            </span>
+          </div>
+          <button id="starBtn" onclick="toggleCurrentStar()" class="p-1.5 text-slate-300 dark:text-slate-600 hover:text-amber-500 transition-colors">
+            <i class="fa-solid fa-star text-lg"></i>
+          </button>
+        </div>
+
+        <!-- Question Prompt Text -->
+        <div class="mb-4">
+          <h2 id="questionPrompt" class="text-base sm:text-lg font-bold text-slate-800 dark:text-slate-100 leading-relaxed tracking-normal">
+            題目載入中...
+          </h2>
+        </div>
+
+        <div id="optionsContainer" class="space-y-2.5">
+          <!-- Dynamic buttons rendered via JS -->
+        </div>
+
+        <!-- Explanation & Analysis Box (Revealed in practice mode or after exam) -->
+        <div id="explanationBox" class="hidden mt-4 p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/70 text-xs leading-relaxed space-y-1.5 animate-fadeIn">
+          <div class="flex items-center justify-between">
+            <span class="font-bold flex items-center text-slate-700 dark:text-slate-200">
+              <i class="fa-solid fa-lightbulb text-amber-500 mr-1.5"></i>詳解分析
+            </span>
+            <span id="correctAnswerBadge" class="px-2 py-0.5 rounded bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300 font-bold">
+              正確答案: O
+            </span>
+          </div>
+          <p id="explanationText" class="text-slate-600 dark:text-slate-300">
+            解析內容說明...
+          </p>
+        </div>
+
+      </div>
+
+    </main>
+
+    <footer class="fixed bottom-0 left-0 right-0 z-30 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-t border-slate-200 dark:border-slate-800 py-2.5 px-4">
+      <div class="max-w-md mx-auto flex items-center justify-between gap-2">
+        
+        <!-- Prev Button -->
+        <button id="prevBtn" onclick="prevQuestion()" class="flex-1 py-2.5 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-semibold text-xs flex items-center justify-center space-x-1.5 active:scale-95 transition-transform disabled:opacity-40 disabled:pointer-events-none">
+          <i class="fa-solid fa-chevron-left text-[11px]"></i>
+          <span>上一題</span>
+        </button>
+
+        <!-- Jump to Question Sheet / Drawer Trigger -->
+        <button onclick="openDrawer()" class="py-2.5 px-4 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-semibold text-xs flex items-center justify-center space-x-1 active:scale-95 transition-transform" title="題號速查表">
+          <i class="fa-solid fa-grip text-sm"></i>
+          <span id="footerQuestionIndex">1/110</span>
+        </button>
+
+        <!-- Next / Submit Button -->
+        <button id="nextBtn" onclick="nextQuestion()" class="flex-1 py-2.5 px-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs flex items-center justify-center space-x-1.5 shadow-md shadow-indigo-600/20 active:scale-95 transition-transform">
+          <span>下一題</span>
+          <i class="fa-solid fa-chevron-right text-[11px]"></i>
+        </button>
+
+        <!-- Exam Submit Action (Shown during exam mode) -->
+        <button id="submitExamBtn" onclick="openExamSubmitConfirm()" class="hidden flex-1 py-2.5 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs flex items-center justify-center space-x-1.5 shadow-md shadow-emerald-600/20 active:scale-95 transition-transform">
+          <i class="fa-solid fa-paper-plane text-[11px]"></i>
+          <span>交卷結算</span>
+        </button>
+
+      </div>
+    </footer>
+
+    <div id="drawerOverlay" class="fixed inset-0 bg-black/60 z-50 hidden flex flex-col justify-end" onclick="closeDrawer(event)">
+      <div id="drawerContent" class="bg-white dark:bg-slate-900 rounded-t-3xl max-w-md w-full mx-auto max-h-[75vh] flex flex-col p-4 shadow-2xl" onclick="event.stopPropagation()">
+        
+        <!-- Drawer Header -->
+        <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
+          <div>
+            <h3 class="font-bold text-sm text-slate-800 dark:text-white">題號速查與狀態</h3>
+            <p class="text-[11px] text-slate-500 dark:text-slate-400">點擊編號立即跳轉到該題</p>
+          </div>
+          <button onclick="closeDrawer()" class="w-7 h-7 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 flex items-center justify-center text-xs">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <!-- Legend -->
+        <div class="flex items-center justify-around py-2.5 text-[11px] text-slate-500 border-b border-slate-100 dark:border-slate-800">
+          <span class="flex items-center"><span class="w-3 h-3 rounded-sm bg-slate-200 dark:bg-slate-700 mr-1.5"></span>未作答</span>
+          <span class="flex items-center"><span class="w-3 h-3 rounded-sm bg-emerald-500 mr-1.5"></span>答對</span>
+          <span class="flex items-center"><span class="w-3 h-3 rounded-sm bg-rose-500 mr-1.5"></span>答錯</span>
+          <span class="flex items-center"><span class="w-3 h-3 rounded-sm border-2 border-indigo-600 mr-1.5"></span>目前</span>
+        </div>
+
+        <!-- Grid of Question Numbers -->
+        <div id="drawerGrid" class="flex-1 overflow-y-auto py-3 grid grid-cols-6 gap-2 text-xs">
+          <!-- Filled dynamically -->
+        </div>
+
+        <!-- Bottom Action in Drawer -->
+        <div class="pt-2 border-t border-slate-100 dark:border-slate-800">
+          <button onclick="closeDrawer()" class="w-full py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold text-xs">
+            返回做題
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Exam Result Modal -->
+    <div id="examResultModal" class="fixed inset-0 bg-black/60 z-50 hidden items-center justify-center p-4">
+      <div class="bg-white dark:bg-slate-900 rounded-2xl max-w-sm w-full p-5 shadow-2xl text-center">
+        <div class="w-16 h-16 rounded-full bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 flex items-center justify-center mx-auto text-2xl mb-3 shadow-inner">
+          <i class="fa-solid fa-award"></i>
+        </div>
+        <h3 class="text-lg font-bold text-slate-800 dark:text-white">模擬測驗結算報告</h3>
+        <p class="text-xs text-slate-500 dark:text-slate-400 mb-4">本次測驗成績統計</p>
+
+        <div class="grid grid-cols-3 gap-2 p-3 bg-slate-50 dark:bg-slate-800/80 rounded-xl mb-4 text-center">
+          <div>
+            <div id="resultScore" class="text-xl font-black text-indigo-600 dark:text-indigo-400">0</div>
+            <div class="text-[10px] text-slate-400">總得分</div>
+          </div>
+          <div>
+            <div id="resultCorrect" class="text-xl font-black text-emerald-500">0</div>
+            <div class="text-[10px] text-slate-400">答對題數</div>
+          </div>
+          <div>
+            <div id="resultWrong" class="text-xl font-black text-rose-500">0</div>
+            <div class="text-[10px] text-slate-400">答錯題數</div>
+          </div>
+        </div>
+
+        <div class="space-y-2">
+          <button onclick="reviewExamMistakes()" class="w-full py-2.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs shadow-md shadow-rose-600/20 active:scale-95 transition-all">
+            <i class="fa-solid fa-filter mr-1.5"></i>僅檢視錯題
+          </button>
+          <button onclick="retryExam()" class="w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs shadow-md shadow-indigo-600/20 active:scale-95 transition-all">
+            <i class="fa-solid fa-rotate-left mr-1.5"></i>重新測驗
+          </button>
+          <button onclick="closeResultModal()" class="w-full py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold text-xs">
+            切換為即時練習模式
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Custom Confirmation Modal (Never use alert/confirm) -->
+    <div id="confirmModal" class="fixed inset-0 bg-black/60 z-50 hidden items-center justify-center p-4">
+      <div class="bg-white dark:bg-slate-900 rounded-2xl max-w-xs w-full p-4 shadow-2xl text-center">
+        <div id="confirmIcon" class="w-12 h-12 rounded-full bg-amber-50 dark:bg-amber-950/60 text-amber-500 flex items-center justify-center mx-auto text-xl mb-3">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+        </div>
+        <h4 id="confirmTitle" class="text-sm font-bold text-slate-800 dark:text-white mb-1">確定要重設嗎？</h4>
+        <p id="confirmDesc" class="text-xs text-slate-500 dark:text-slate-400 mb-4">這將會清除您目前的作答紀錄。</p>
+        <div class="flex space-x-2">
+          <button onclick="closeConfirmModal()" class="flex-1 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-semibold">取消</button>
+          <button id="confirmActionBtn" onclick="runConfirmCallback()" class="flex-1 py-2 rounded-xl bg-indigo-600 text-white text-xs font-semibold">確定</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast Notification Element -->
+    <div id="toast" class="fixed top-14 left-1/2 -translate-x-1/2 z-50 pointer-events-none opacity-0 transition-opacity duration-300 px-4 py-2 bg-slate-900/90 dark:bg-white/90 text-white dark:text-slate-900 text-xs font-medium rounded-full shadow-lg flex items-center space-x-1.5">
+      <i id="toastIcon" class="fa-solid fa-check text-emerald-400"></i>
+      <span id="toastMsg">提示訊息</span>
+    </div>
+
+  </div>
+
+  <script>
+    // Complete 110 questions extracted strictly from the provided PDF document
+    const QUESTIONS = [
+      /* ============================================================
+         單元一：消防專業課程 (防火逃生要領與簡易滅火實作) 
+         是非題 10 題 + 選擇題 15 題
+      ============================================================ */
+      {
+        id: "u1_tf_1",
+        unit: "u1",
+        unitName: "消防專業課程",
+        type: "tf",
+        prompt: "發現火災時，原則上先大喊「失火了、失火了、失火了」，告知大家有火災。",
+        options: ["O", "X"],
+        answer: 0,
+        explanation: "正確。發現火災時，第一時間大聲呼喊警示在場人員，讓大家能及早逃生與應變。"
+      },
+      {
+        id: "u1_tf_2",
+        unit: "u1",
+        unitName: "消防專業課程",
+        type: "tf",
+        prompt: "偵煙式住宅用火災警報器裝在廚房最適當，因為廚房比較容易發生火災。",
+        options: ["O", "X"],
+        answer: 1,
+        explanation: "錯誤 (X)。廚房因平時烹飪有油煙及水蒸氣，容易引發偵煙式住警器誤報，廚房應安裝「定溫式」住宅用火災警報器，偵煙式則適合客廳、臥室及樓梯。"
+      },
+      {
+        id: "u1_tf_3",
+        unit: "u1",
+        unitName: "消防專業課程",
+        type: "tf",
+        prompt: "室內消防栓之操作，應先按警鈴並打開消防栓箱，拿出瞄子後拉出水帶，最後轉開水閥，方可滅火。",
+        options: ["O", "X"],
+        answer: 0,
+        explanation: "正確。室內消防栓操作最新口訣為「按、開、拿、拉、轉」：按警鈴、開箱門、拿瞄子、拉水帶、轉水閥。"
+      },
+      {
+        id: "u1_tf_4",
+        unit: "u1",
+        unitName: "消防專業課程",
+        type: "tf",
+        prompt: "當自家門外發生火災，手觸摸門板有高溫，此時只要「關門」就地避難，再打開窗戶，等待救援。",
+        options: ["O", "X"],
+        answer: 0,
+        explanation: "正確。若摸門把發燙表示門外已有高溫濃煙，不可開門逃生，應關緊房門塞住門縫就地避難，並至臨外窗呼救等待搜救。"
+      },
+      {
+        id: "u1_tf_5",
+        unit: "u1",
+        unitName: "消防專業課程",
+        type: "tf",
+        prompt: "滅火器最新使用口訣為「拉、瞄、壓、掃」。",
+        options: ["O", "X"],
+        answer: 0,
+        explanation: "正確。滅火器口訣為「拉(插梢)、瞄(火源根部)、壓(握把)、掃(左右掃射)」。"
+      },
+      {
+        id: "u1_tf_6",
+        unit: "u1",
+        unitName: "消防專業課程",
+        type: "tf",
+        prompt: "使用滅火器時，應站在下風位置接近火點，並將皮管瞄準火燄根部掃射。",
+        options: ["O", "X"],
+        answer: 1,
+        explanation: "錯誤 (X)。使用滅火器時應站在「上風」位置，避免濃煙、高熱及藥劑迎面撲來造成嗆傷或灼傷。"
+      },
+      {
+        id: "u1_tf_7",
+        unit: "u1",
+        unitName: "消防專業課程",
+        type: "tf",
+        prompt: "火災發生時，為了要迅速逃離火場，可搭乘電梯較快。",
+        options: ["O", "X"],
+        answer: 1,
+        explanation: "錯誤 (X)。火災發生時電力隨時可能中斷導致受困電梯內，且電梯井極易形成煙囪效應灌入濃煙致命，絕不可搭乘電梯。"
+      },
+      {
+        id: "u1_tf_8",
+        unit: "u1",
+        unitName: "消防專業課程",
+        type: "tf",
+        prompt: "當火災發生，而遭遇到濃煙時，應採用「低姿勢」逃到「相對安全區域」。",
+        options: ["O", "X"],
+        answer: 0,
+        explanation: "正確。濃煙高熱會向上竄升，地面上方約20至30公分處有殘存新鮮空氣，應採低姿勢爬行逃生。"
+      },
+      {
+        id: "u1_tf_9",
+        unit: "u1",
+        unitName: "消防專業課程",
+        type: "tf",
+        prompt: "滅火器最新使用方法是拉(安全插梢)、拉(前端皮管)、壓(把柄)。",
+        options: ["O", "X"],
+        answer: 1,
+        explanation: "錯誤 (X)。滅火器完整操作口訣是「拉(安全插梢)、瞄(火源根部)、壓(把柄)、掃(左右掃射)」。"
+      },
+      {
+        id: "u1_tf_10",
+        unit: "u1",
+        unitName: "消防專業課程",
+        type: "tf",
+        prompt: "家裡發生火災時，趕快躲浴室較安全，因為浴室有水，可用來滅火。",
+        options: ["O", "X"],
+        answer: 1,
+        explanation: "錯誤 (X)。浴室門大多為塑膠門遇高熱即融化，且下方有通風百葉孔無法阻隔致命濃煙毒氣，千萬不可躲進浴室。"
+      },
+      /* 消防選擇題 15 題 */
+      {
+        id: "u1_mc_1",
+        unit: "u1",
+        unitName: "消防專業課程",
+        type: "mc",
+        prompt: "防範火災發生是？",
+        options: ["消防員的責任", "警察的責任", "學生的責任", "大家的責任"],
+        answer: 3,
+        explanation: "消防安全人人有責，預防火災需全體民眾共同落實。"
+      },
+      {
+        id: "u1_mc_2",
+        unit: "u1",
+        unitName: "消防專業課程",
+        type: "mc",
+        prompt: "安全門的主要用途為？",
+        options: ["防盜", "阻隔火煙", "滅火", "變賣"],
+        answer: 1,
+        explanation: "安全門（防火門）平時應保持常閉，主要功能在火災發生時阻隔火勢與致命濃煙蔓延至安全梯間。"
+      },
+      {
+        id: "u1_mc_3",
+        unit: "u1",
+        unitName: "消防專業課程",
+        type: "mc",
+        prompt: "火災現場充滿濃煙，逃生時哪裡有殘餘空氣可利用？",
+        options: ["靠天花板處", "靠地面約20到30公分處", "靠高層樓處", "以上皆是"],
+        answer: 1,
+        explanation: "熱空氣與濃煙向上浮升，地面約20~30公分處空氣相對良好且溫度較低。"
+      },
+      {
+        id: "u1_mc_4",
+        unit: "u1",
+        unitName: "消防專業課程",
+        type: "mc",
+        prompt: "下列何者是火場中的頭號殺手？",
+        options: ["濃煙", "高溫", "火焰", "以上皆是"],
+        answer: 0,
+        explanation: "濃煙含有大量一氧化碳及氰化氫等劇毒氣體，且具高溫與遮光性，是火場中最主要的致死原因。"
+      },
+      {
+        id: "u1_mc_5",
+        unit: "u1",
+        unitName: "消防專業課程",
+        type: "mc",
+        prompt: "防火防災教育訓練之目的，下列何者為非？",
+        options: ["普及火災預防意識", "提升防災知識", "提升辦公效率", "提升災害發生時之處置判斷及應變能力"],
+        answer: 2,
+        explanation: "「提升辦公效率」並非防火防災教育訓練之主要目的。"
+      },
+      {
+        id: "u1_mc_6",
+        unit: "u1",
+        unitName: "消防專業課程",
+        type: "mc",
+        prompt: "台灣的建築物火災，以住宅火災佔多數，如發生火災，下列何項消防安全設備，可發揮早期預警之功能？",
+        options: ["一氧化碳警報器", "住宅用火災警報器", "緊急照明燈", "緩降機"],
+        answer: 1,
+        explanation: "住宅用火災警報器（住警器）能在火災發生初期發出高分貝警報，提醒熟睡或室內人員及早應變逃生。"
+      },
+      {
+        id: "u1_mc_7",
+        unit: "u1",
+        unitName: "消防專業課程",
+        type: "mc",
+        prompt: "臺北市消防局視訊 119APP的功能有？",
+        options: ["即時定位報案人地點", "播放 CPR 流程影片及搜尋附近的AED", "即時發布地震警報", "以上皆是"],
+        answer: 0,
+        explanation: "依據題目指定標準答案為 (1) 即時定位報案人地點。"
+      },
+      {
+        id: "u1_mc_8",
+        unit: "u1",
+        unitName: "消防專業課程",
+        type: "mc",
+        prompt: "室內消防栓的使用口訣？",
+        options: ["拿、開、按、拉、轉", "開、按、拿、轉、拉", "按、開、拿、拉、轉", "按、開、轉、拿、拉"],
+        answer: 2,
+        explanation: "口訣為：按(警鈴) → 開(箱門) → 拿(瞄子) → 拉(水帶) → 轉(水閥)。"
+      },
+      {
+        id: "u1_mc_9",
+        unit: "u1",
+        unitName: "消防專業課程",
+        type: "mc",
+        prompt: "下列「初期滅火」何者為非？",
+        options: ["初期滅火應將滅火器直接丟入火源中", "初期滅火班人員可分工一人滅火一人找尋滅火器以集中連續使用", "滅火班可適時利用室內消防栓接近火點進行滅火", "使用滅火器撲滅火勢時，確定無觸電之虞，應再加以澆水降溫"],
+        answer: 0,
+        explanation: "滅火器不能直接丟進火源中（會因高熱爆炸產生危險），應手持操作朝火源根部噴灑掃射。"
+      },
+      {
+        id: "u1_mc_10",
+        unit: "u1",
+        unitName: "消防專業課程",
+        type: "mc",
+        prompt: "哪一個選項是災害防救法第2條裡面所提到的災害？",
+        options: ["火災", "震災", "土石流災害", "以上皆是"],
+        answer: 3,
+        explanation: "災害防救法第2條所稱災害涵蓋風災、震災、火災、水災、土石流災害等天然及人為重大災害。"
+      },
+      {
+        id: "u1_mc_11",
+        unit: "u1",
+        unitName: "消防專業課程",
+        type: "mc",
+        prompt: "何種物質工廠起火燃燒不得使用水撲滅？",
+        options: ["木材", "紙張", "鉀(禁水性物質)"],
+        answer: 2,
+        explanation: "金屬鉀為活性極大之禁水性物質，遇水會劇烈反應生成氫氣並放熱引發劇烈爆炸，不可用水撲滅。"
+      },
+      {
+        id: "u1_mc_12",
+        unit: "u1",
+        unitName: "消防專業課程",
+        type: "mc",
+        prompt: "電器火災又稱之為：",
+        options: ["A類火災", "B類火災", "C類火災", "D類火災"],
+        answer: 2,
+        explanation: "火災分類：A類為普通火災(木材紙張)、B類為油類火災、C類為電氣火災、D類為金屬火災。"
+      },
+      {
+        id: "u1_mc_13",
+        unit: "u1",
+        unitName: "消防專業課程",
+        type: "mc",
+        prompt: "當有人溺水時，不可用哪一種方法施救？",
+        options: ["使喚別人也入水救援溺者", "使用竹竿", "使用救生圈", "使用現場現有衣物連接一起，丟給溺者"],
+        answer: 0,
+        explanation: "防溺原則為「岸上救援優先」，嚴禁使喚他人貿然入水，以免發生更多人溺斃的二次悲劇。"
+      },
+      {
+        id: "u1_mc_14",
+        unit: "u1",
+        unitName: "消防專業課程",
+        type: "mc",
+        prompt: "有關地震知識，下列敘述何者錯誤？",
+        options: ["地震規模，通常以芮氏規模表示", "震度0級為無感地震", "震度從最低0級至最高7級，總共分為8級", "震度從最低級至最高7級，總共分為10級"],
+        answer: 2,
+        explanation: "錯誤的是 (3)。台灣現行地震震度劃分為 0, 1, 2, 3, 4, 5弱, 5強, 6弱, 6強, 7級，共計 10 個級別，並非 8 級。"
+      },
+      {
+        id: "u1_mc_15",
+        unit: "u1",
+        unitName: "消防專業課程",
+        type: "mc",
+        prompt: "滅火器之使用要領含有以下 abcd 四項：a.瞄準火源根部 b.拉插梢 c.壓握把 d.向火源左右掃射，請問其順序為何？",
+        options: ["cbad", "bacd", "bcad", "acbd"],
+        answer: 1,
+        explanation: "滅火器步驟為：拉(b) → 瞄(a) → 壓(c) → 掃(d)，即 bacd。"
+      },
+
+      /* ============================================================
+         單元二：防情傳遞測驗題 
+         是非題 10 題 + 選擇題 10 題
+      ============================================================ */
+      {
+        id: "u2_tf_1",
+        unit: "u2",
+        unitName: "防情傳遞測驗",
+        type: "tf",
+        prompt: "「防情警報」，是指空軍作戰指揮部空中管制中心(簡稱空中管制中心)於研判確定有敵機、不明機或飛彈進襲臺灣地區跡象時，所傳遞之「防空情報」及「空襲警報發放命令(含燈火管制)」。",
+        options: ["O", "X"],
+        answer: 0,
+        explanation: "正確。這是防情警報之法定定義。"
+      },
+      {
+        id: "u2_tf_2",
+        unit: "u2",
+        unitName: "防情傳遞測驗",
+        type: "tf",
+        prompt: "防情警報的「傳遞聯絡」，是指內政部警政署民防指揮管制所(以下稱署民管所)，於接獲空中管制中心通報之防情警報後，利用有(無)線電通信系統通報相關機關(構)及下達直轄市、縣(市)政府警察局民防管制中心(以下稱民管中心)，並由其通報相關機關(構)及通報或下達各分局、分駐(派出所)、隊警報臺之作為。",
+        options: ["O", "X"],
+        answer: 0,
+        explanation: "正確。此為防情警報傳遞之逐級聯絡通報機制。"
+      },
+      {
+        id: "u2_tf_3",
+        unit: "u2",
+        unitName: "防情傳遞測驗",
+        type: "tf",
+        prompt: "「防空警報器」建置於警察單位，如派出所、警備隊或交通分隊，且24小時有人員看守。",
+        options: ["O", "X"],
+        answer: 0,
+        explanation: "正確。警報器配置於警察駐地並由值班警力24小時看守以確保即時發放。"
+      },
+      {
+        id: "u2_tf_4",
+        unit: "u2",
+        unitName: "防情傳遞測驗",
+        type: "tf",
+        prompt: "「警報臺」是指設有防情通信及警報設備之單位，包括分駐(派出)所、警備隊或交通分隊等。",
+        options: ["O", "X"],
+        answer: 0,
+        explanation: "正確。警報臺包含具備警報設備之各基層警察分駐(派出)所及分隊。"
+      },
+      {
+        id: "u2_tf_5",
+        unit: "u2",
+        unitName: "防情傳遞測驗",
+        type: "tf",
+        prompt: "遙控警報臺：簡稱遙控臺，指有配置中央遙控警報系統終端控制器，可接收內政部警政署民防指揮管制所遠端訊號，遙控發放警報之警報臺。",
+        options: ["O", "X"],
+        answer: 0,
+        explanation: "正確。遙控臺具備接收遠端指令自動驅動警報器發放之功能。"
+      },
+      {
+        id: "u2_tf_6",
+        unit: "u2",
+        unitName: "防情傳遞測驗",
+        type: "tf",
+        prompt: "人工警報臺：簡稱人工臺，指未配置中央遙控警報系統終端控制器，無法遙控發放警報，接收警報命令後，須以人工操作發放警報之警報臺。",
+        options: ["O", "X"],
+        answer: 0,
+        explanation: "正確。未配備中央遙控終端者屬人工臺，受令後由值班人員手動操作發放。"
+      },
+      {
+        id: "u2_tf_7",
+        unit: "u2",
+        unitName: "防情傳遞測驗",
+        type: "tf",
+        prompt: "防空警報音符之種類、內容及用途：緊急警報音符內容為1長音2短音，長音15秒，短音5秒，各音符間隔5秒，連續拉3次，共115秒，用途為通知民眾有空襲狀況，立即實施避難；解除警報音符內容為1長音90秒，用途為通知民眾空襲狀況解除。",
+        options: ["O", "X"],
+        answer: 0,
+        explanation: "正確。緊急警報：(15+5+5+5+5)*3 - 5? 算法為：長15s + 休5s + 短5s + 休5s + 短5s = 35s，重複3次中間隔5s，總計115秒；解除警報為1長音90秒。"
+      },
+      {
+        id: "u2_tf_8",
+        unit: "u2",
+        unitName: "防情傳遞測驗",
+        type: "tf",
+        prompt: "通知民眾有空襲狀況之方式包括：運用警察單位設置之防空警報器發放警報、國防部發布「災防告警細胞廣播訊息」至民眾行動電話、村里辦公室廣播、警車廣播等。",
+        options: ["O", "X"],
+        answer: 0,
+        explanation: "正確。現行空襲告警採多元管道發送。"
+      },
+      {
+        id: "u2_tf_9",
+        unit: "u2",
+        unitName: "防情傳遞測驗",
+        type: "tf",
+        prompt: "中共解放軍自111年8月3日起，迄至113年1月25日止，每日均持續派遣軍機、艦艇臺海周邊活動，且經常逾越海峽中線及其延伸線，騷擾我海、空域。",
+        options: ["O", "X"],
+        answer: 0,
+        explanation: "正確。符合國防部公佈之周邊海空情勢動態統計事實。"
+      },
+      {
+        id: "u2_tf_10",
+        unit: "u2",
+        unitName: "防情傳遞測驗",
+        type: "tf",
+        prompt: "「自強演習」是針對空襲狀況時，實施警報傳遞與發放、疏散避難及交通管制等演練。",
+        options: ["O", "X"],
+        answer: 1,
+        explanation: "錯誤 (X)。針對空襲警報發放與防空疏散避難之演習為「萬安演習」；「自強演習」是物資與機具之徵購、徵用動員演習。"
+      },
+      /* 防情傳遞 選擇題 10 題 */
+      {
+        id: "u2_mc_1",
+        unit: "u2",
+        unitName: "防情傳遞測驗",
+        type: "mc",
+        prompt: "下列敘述何者錯誤？",
+        options: [
+          "警報臺：指設有防空警報設施之分駐(派出)所、警備隊或交通分隊等",
+          "警報器：用以發出警報音響之警報設施，各警察單位警報臺原則上採單配制，僅配置電子式警報器、交流或直流警報器其中1種",
+          "遙控警報臺：簡稱遙控臺，指有配置中央遙控警報系統終端控制器，可接收內政部警政署民防指揮管制所遠端訊號，遙控發放警報之警報臺；未配置中央遙控警報系統終端控制器者，則為人工警報臺，簡稱人工臺"
+        ],
+        answer: 1,
+        explanation: "錯誤的是 (2)。警報器並非單配制，部分警報臺同時具有交流、直流或電子式複式配置以防斷電。"
+      },
+      {
+        id: "u2_mc_2",
+        unit: "u2",
+        unitName: "防情傳遞測驗",
+        type: "mc",
+        prompt: "防空緊急警報音符內容為_長音，_短音，長音_秒，短音_秒，各音符間隔_秒，連續拉_次，共_秒，以上空格分別為？",
+        options: [
+          "2, 1, 10, 5, 5, 3, 115",
+          "1, 2, 15, 5, 5, 3, 115",
+          "1, 2, 20, 5, 5, 3, 115"
+        ],
+        answer: 1,
+        explanation: "防空緊急警報為：1長音、2短音，長音15秒、短音5秒，間隔5秒，連續3次，共115秒。"
+      },
+      {
+        id: "u2_mc_3",
+        unit: "u2",
+        unitName: "防情傳遞測驗",
+        type: "mc",
+        prompt: "有關防空警報音符內容之敘述，何者正確？",
+        options: ["解除警報音符為1長音90秒", "試轉警報音符為1長音90秒", "試放警報音符為1長音90秒"],
+        answer: 0,
+        explanation: "解除警報音符為「1長音90秒」。"
+      },
+      {
+        id: "u2_mc_4",
+        unit: "u2",
+        unitName: "防情傳遞測驗",
+        type: "mc",
+        prompt: "何種演習是針對空襲狀況時，實施警報傳遞與發放、疏散避難及交通管制等演練？",
+        options: ["萬安演習", "民安演習", "城鎮韌性演習"],
+        answer: 2,
+        explanation: "本題依原題庫標註答案為 (3) 城鎮韌性演習（整合防空避難與全社會韌性應變演練）。"
+      },
+      {
+        id: "u2_mc_5",
+        unit: "u2",
+        unitName: "防情傳遞測驗",
+        type: "mc",
+        prompt: "民眾如何得知發生空襲狀況？",
+        options: ["聽聞防空警報器發放的緊急警報音響", "行動電話接獲國防部發布的「災防告警細胞廣播訊息」", "以上皆是"],
+        answer: 2,
+        explanation: "警報器巨響與國防部手機國家級防空警報簡訊皆是接收管道。"
+      },
+      {
+        id: "u2_mc_6",
+        unit: "u2",
+        unitName: "防情傳遞測驗",
+        type: "mc",
+        prompt: "從何官方全球資訊網可得知中共解放軍在臺海周邊海、空域動態資訊？",
+        options: ["內政部警政署", "消防署", "國防部"],
+        answer: 2,
+        explanation: "國防部全球資訊網每日定時公佈中共解放軍進入臺海周邊海空域動態。"
+      },
+      {
+        id: "u2_mc_7",
+        unit: "u2",
+        unitName: "防情傳遞測驗",
+        type: "mc",
+        prompt: "下列敘述何者錯誤？",
+        options: ["防空警報器設置於警政單位", "內政部警政署可遙控全省警報臺發放防空警報", "現行警報臺僅有少部分為遙控警報臺"],
+        answer: 2,
+        explanation: "錯誤的是 (3)。現行全臺大部分警報臺均已建置升級為中央遙控警報臺，僅極少數偏遠地區為人工操作。"
+      },
+      {
+        id: "u2_mc_8",
+        unit: "u2",
+        unitName: "防情傳遞測驗",
+        type: "mc",
+        prompt: "下列何種警報是針對空襲狀況所發布之告警？",
+        options: ["海嘯警報", "颱風警報", "防空警報"],
+        answer: 2,
+        explanation: "敵軍空中襲擊時發布之警報為「防空警報」。"
+      },
+      {
+        id: "u2_mc_9",
+        unit: "u2",
+        unitName: "防情傳遞測驗",
+        type: "mc",
+        prompt: "下列敘述何者正確？",
+        options: [
+          "2022年2月24日，俄羅斯入侵烏克蘭，導致雙方數十萬人傷亡，並造成歐洲自第二次世界大戰以來最大的難民危機...",
+          "2023年10月7日，以哈瑪斯為首的巴勒斯坦武裝團體與以色列軍隊爆發武裝衝突...",
+          "以上皆是"
+        ],
+        answer: 2,
+        explanation: "以上敘述皆符合烏俄戰爭及以哈衝突爆發時程與歷史事實。"
+      },
+      {
+        id: "u2_mc_10",
+        unit: "u2",
+        unitName: "防情傳遞測驗",
+        type: "mc",
+        prompt: "要協助民眾防空疏散避難，首要任務為？",
+        options: ["正確辨識防空警報音符", "熟悉防空疏散避難場所位置", "以上皆非"],
+        answer: 0,
+        explanation: "首要任務為「正確辨識防空警報音符」，方能第一時間警覺並採取避難作為。"
+      },
+
+      /* ============================================================
+         單元三：內政部替代役民防役專業訓練考題 (單選題 10 題)
+      ============================================================ */
+      {
+        id: "u3_mc_1",
+        unit: "u3",
+        unitName: "替代役民防役專業訓練",
+        type: "mc",
+        prompt: "有關制定「民防法」主要目的，下列敘述何者錯誤？",
+        options: [
+          "為有效運用民力，發揮民間自衛自救功能",
+          "共同防護人民生命、身體、財產安全，以達平時防災救護",
+          "戰時有效支援軍事任務",
+          "增加民防人員生活津貼、補助每月聯誼活動費"
+        ],
+        answer: 3,
+        explanation: "民防法第1條旨在運用民力、平時防災、戰時支援軍事勤務，絕非為了補助聯誼費用或發放生活津貼。"
+      },
+      {
+        id: "u3_mc_2",
+        unit: "u3",
+        unitName: "替代役民防役專業訓練",
+        type: "mc",
+        prompt: "依據「民防團隊編組訓練演習服勤及支援軍事勤務辦法」，下列何者非民防大隊任務範圍？",
+        options: [
+          "配合警察要求代查電玩業者戶役政資料",
+          "執行轄內空襲災害防護",
+          "協助防空避難設備管理維護",
+          "協助搶救重大災害",
+          "協助維持地方治安及戰時支援軍事勤務任務"
+        ],
+        answer: 0,
+        explanation: "代查戶役政個人資料涉個資法與警察職權，非民防大隊法定職掌。"
+      },
+      {
+        id: "u3_mc_3",
+        unit: "u3",
+        unitName: "替代役民防役專業訓練",
+        type: "mc",
+        prompt: "有關「民防法」主管機關下列敘述何者有誤？",
+        options: ["中央為內政部", "中央為全動署", "直轄市為直轄市政府", "在縣(市)為縣(市)政府"],
+        answer: 1,
+        explanation: "依民防法第2條，民防之中央主管機關為「內政部」，並非國防部全民防衛動員署。"
+      },
+      {
+        id: "u3_mc_4",
+        unit: "u3",
+        unitName: "替代役民防役專業訓練",
+        type: "mc",
+        prompt: "有關臺北市政府民防團隊編組，下列敘述何者錯誤？",
+        options: [
+          "警察局編管單位計有民防大隊、義警大隊及工程搶修大隊",
+          "現任民防總隊指揮官 1 人，由市長蔣萬安擔任",
+          "現有編制12個民防團、456個民防分團",
+          "戰時災民收容站由社會局編管"
+        ],
+        answer: 0,
+        explanation: "工程搶修大隊由工務局主管編管，而非警察局。"
+      },
+      {
+        id: "u3_mc_5",
+        unit: "u3",
+        unitName: "替代役民防役專業訓練",
+        type: "mc",
+        prompt: "依據「民防團隊編組訓練演習服勤及支援軍事勤務辦法」，下列何者非義勇警察大隊任務範圍？",
+        options: [
+          "協助防竊防盜",
+          "執行轄內獨居長者送餐勤務",
+          "協助警戒勤務",
+          "協助警察勤務",
+          "戰時支援軍事勤務任務"
+        ],
+        answer: 1,
+        explanation: "送餐給獨居長者屬社會福利志工業務，非義警大隊之治安防護任務。"
+      },
+      {
+        id: "u3_mc_6",
+        unit: "u3",
+        unitName: "替代役民防役專業訓練",
+        type: "mc",
+        prompt: "有關「民防法」第4條特種防護團編組機構，下列敘述何者錯誤？",
+        options: [
+          "鐵路南港站可以設置特種防護團編組",
+          "基隆港可以設置特種防護團",
+          "松山機場可以設置特種防護團",
+          "政治大學可以設置特種防護團"
+        ],
+        answer: 3,
+        explanation: "政治大學等公私立高級中等以上學校應編組為「防護團」或「聯合防護團」，非交通重大公用事業之「特種防護團」。"
+      },
+      {
+        id: "u3_mc_7",
+        unit: "u3",
+        unitName: "替代役民防役專業訓練",
+        type: "mc",
+        prompt: "有關「民防法」第4 條防護團編組機構，下列敘述何者錯誤？",
+        options: [
+          "台電可以設置防護團編組",
+          "行政院可以設置防護團編組",
+          "興隆國小可以設置防護團編組",
+          "萬芳醫院可以設置防護團編組"
+        ],
+        answer: 0,
+        explanation: "台電屬於重要公用事業事業機構，依法應設置「特種防護團」，而非一般防護團。"
+      },
+      {
+        id: "u3_mc_8",
+        unit: "u3",
+        unitName: "替代役民防役專業訓練",
+        type: "mc",
+        prompt: "有關「民防法」第8條下列敘述何者正確？",
+        options: [
+          "參加民防團隊編組人員接受訓練、演習、服勤時，辦理機關(構)得依實際需要供給膳宿",
+          "參加民防團隊編組人員接受訓練，無提供交通工具或不發放代金",
+          "民防人員接受訓練、演習、服勤期間，應自行請事假參加",
+          "民防人員接受訓練期間，每日可領取3千元新台幣"
+        ],
+        answer: 0,
+        explanation: "依民防法第8條，訓練演習服勤得依實際需要供給膳宿或發給代金，其所屬機關應給予公假（非事假）。"
+      },
+      {
+        id: "u3_mc_9",
+        unit: "u3",
+        unitName: "替代役民防役專業訓練",
+        type: "mc",
+        prompt: "依據「民防團隊編組訓練演習服勤及支援軍事勤務辦法」，下列何者非交通義勇警察大隊任務範圍？",
+        options: [
+          "協助整理交通秩序",
+          "協助交通指揮、疏導與管制",
+          "協助護鈔勤務",
+          "協助交通事故處理、交通設施損壞通報及維護",
+          "協助空襲及戰時交通指揮、疏導與管制及其他經指定之警察勤務"
+        ],
+        answer: 2,
+        explanation: "護鈔勤務為金融機構防搶保全或正式警察警勤任務，非義交大隊之交通協勤工作。"
+      },
+      {
+        id: "u3_mc_10",
+        unit: "u3",
+        unitName: "替代役民防役專業訓練",
+        type: "mc",
+        prompt: "依據「民防團隊編組訓練演習服勤及支援軍事勤務辦法」，下列何者為村(里)社區守望相助巡守大隊任務範圍？",
+        options: [
+          "協助國家考試試卷運送",
+          "協助外國元首訪問交通指揮",
+          "協助維護地方治安巡守、急難救護任務",
+          "協助鐵拒馬架設及搬運"
+        ],
+        answer: 2,
+        explanation: "守望相助巡守大隊主要任務為協助基層社區維持治安巡守、通報與急難救護。"
+      },
+
+      /* ============================================================
+         單元四：基礎民防法令試題 (選擇題 20 題)
+      ============================================================ */
+      {
+        id: "u4_mc_1",
+        unit: "u4",
+        unitName: "基礎民防法令",
+        type: "mc",
+        prompt: "民防的定義，下列何者有誤？",
+        options: [
+          "(A) 平時防災救護，戰時有效支援軍事任務",
+          "(B) 運用軍隊的力量，來保衛人民的生命財產安全",
+          "(C) 共同防護人民身家、財產安全",
+          "(D) 運用民力，發揮民間自衛自救功能"
+        ],
+        answer: 1,
+        explanation: "民防是運用「民間人力」（非軍隊現役部隊力量）來達成自衛自救及支援任務。"
+      },
+      {
+        id: "u4_mc_2",
+        unit: "u4",
+        unitName: "基礎民防法令",
+        type: "mc",
+        prompt: "民防團隊編組訓練演習服勤及支援軍事勤務辦法第16條之1新增之四大隊為何？",
+        options: ["(A) 醫療大隊", "(B) 環境保護大隊", "(C) 物資大隊", "(D) 工程搶修大隊"],
+        answer: 2,
+        explanation: "依該法規第16-1條規定新增四大隊包含「物資大隊」。"
+      },
+      {
+        id: "u4_mc_3",
+        unit: "u4",
+        unitName: "基礎民防法令",
+        type: "mc",
+        prompt: "下列何者的主管機關不是內政部？",
+        options: [
+          "(A) 《災害防救法》",
+          "(B) 《民防法》",
+          "(C) 《民防團隊編組訓練演習服勤及支援軍事勤務辦法》",
+          "(D) 《全民防衛動員準備法》"
+        ],
+        answer: 3,
+        explanation: "《全民防衛動員準備法》之主管機關為「國防部」。"
+      },
+      {
+        id: "u4_mc_4",
+        unit: "u4",
+        unitName: "基礎民防法令",
+        type: "mc",
+        prompt: "學校防護團主要運用誰來協助戰時或平時災害防救相關的勤務工作，內容包括民防、軍勤、交通、運輸、生產、救護與宣導等？",
+        options: ["(A) 大學生", "(B) 高中、職青年", "(C) 義交、義警", "(D) 教職員工生"],
+        answer: 3,
+        explanation: "學校防護團以其「全體教職員工及成年學生」依專長編組。"
+      },
+      {
+        id: "u4_mc_5",
+        unit: "u4",
+        unitName: "基礎民防法令",
+        type: "mc",
+        prompt: "我國哪一部法律能有效運用民力，發揮民間自衛自救的功能，達到平時能夠防護救災，戰時能夠有效支援軍事任務？",
+        options: ["(A) 民防法", "(B) 災害防救法", "(C) 戰力綜合協調會報全民防衛動員準備法", "(D) 國防法"],
+        answer: 0,
+        explanation: "此為《民防法》第1條立法宗旨明文。"
+      },
+      {
+        id: "u4_mc_6",
+        unit: "u4",
+        unitName: "基礎民防法令",
+        type: "mc",
+        prompt: "民防工作與軍事勤務相關者，平時由中央主管機關會同哪一單位督導執行？",
+        options: ["(A) 外交部", "(B) 內政部", "(C) 法務部", "(D) 國防部"],
+        answer: 3,
+        explanation: "民防工作凡涉及支援軍事勤務者，由內政部會同「國防部」共同督導執行。"
+      },
+      {
+        id: "u4_mc_7",
+        unit: "u4",
+        unitName: "基礎民防法令",
+        type: "mc",
+        prompt: "各機關對於防空避難設施應加強管理維護，並妥為分配，假設某直轄市、縣(市)政府所屬機關經檢討後，發現其防空避難設施容量不敷者，該機關應請洽哪個單位協助規劃避難處所？",
+        options: [
+          "(A) 該直轄市、縣(市)民防總隊",
+          "(B) 內政部警政署",
+          "(C) 內政部消防署",
+          "(D) 該直轄市、縣(市)警察局"
+        ],
+        answer: 3,
+        explanation: "防空避難處所之清查、規劃、列管與容量不足協調係由各「警察局」主管負責。"
+      },
+      {
+        id: "u4_mc_8",
+        unit: "u4",
+        unitName: "基礎民防法令",
+        type: "mc",
+        prompt: "下列何者不是青年服勤動員所依據的法規？",
+        options: ["(A) 災害防救法", "(B) 全民防衛動員準備法", "(C) 民防法", "(D) 國防法"],
+        answer: 3,
+        explanation: "青年學生動員服勤主要依據全動法、民防法及災防法，不包含直接規管國軍軍事組織之國防法。"
+      },
+      {
+        id: "u4_mc_9",
+        unit: "u4",
+        unitName: "基礎民防法令",
+        type: "mc",
+        prompt: "根據民防團隊編組訓練演習服勤及支援軍事勤務辦法，幹部訓練每年度以幾小時為原則？",
+        options: ["(A) 四小時", "(B) 四至六小時", "(C) 四至八小時", "(D) 四至十二小時"],
+        answer: 3,
+        explanation: "民防團隊幹部訓練每年度以「四至十二小時」為原則。"
+      },
+      {
+        id: "u4_mc_10",
+        unit: "u4",
+        unitName: "基礎民防法令",
+        type: "mc",
+        prompt: "民防分團勤務組編組，以多少人為原則？",
+        options: ["(A) 六人", "(B) 八人", "(C) 二至十二人", "(D) 八至十二人"],
+        answer: 2,
+        explanation: "民防分團勤務組編組人數以「二至十二人」為原則。"
+      },
+      {
+        id: "u4_mc_11",
+        unit: "u4",
+        unitName: "基礎民防法令",
+        type: "mc",
+        prompt: "各機關員工人數達幾人以上者，應編組防護團？",
+        options: ["(A) 50人", "(B) 100人", "(C) 150人", "(D) 200人"],
+        answer: 1,
+        explanation: "依民防法規定，機關、學校、團體員工人數達「100人」以上者應編組防護團。"
+      },
+      {
+        id: "u4_mc_12",
+        unit: "u4",
+        unitName: "基礎民防法令",
+        type: "mc",
+        prompt: "徵用物資價款處理方式，何者錯誤？",
+        options: [
+          "(A) 於徵購後，參照市價及新舊程度計算",
+          "(B) 價款於交付物資時一併給付",
+          "(C) 徵用原因消滅時須解除徵用",
+          "(D) 操作人員可一併徵用"
+        ],
+        answer: 0,
+        explanation: "物資價格評定應於徵購前即訂定補償標準計價，非徵購後任意計算。"
+      },
+      {
+        id: "u4_mc_13",
+        unit: "u4",
+        unitName: "基礎民防法令",
+        type: "mc",
+        prompt: "有關城鎮韌性演習之敘述何者錯誤？",
+        options: [
+          "(A) 將每個縣市視為一個城堡",
+          "(B) 整合過去多種演習",
+          "(C) 目前納入萬安演習",
+          "(D) 救災單位同時參與"
+        ],
+        answer: 0,
+        explanation: "城鎮韌性演習強調跨區域連防與分散式指揮支援韌性，非狹隘封閉之「城堡」概念。"
+      },
+      {
+        id: "u4_mc_14",
+        unit: "u4",
+        unitName: "基礎民防法令",
+        type: "mc",
+        prompt: "循指揮體系下達徵購、徵用令及生產轉換令，誘導參演部隊運用全民戰力綜合協調組織，遂行軍需物資動員之演習為何？",
+        options: ["(A) 自強演習", "(B) 漢光演習", "(C) 萬安演習", "(D) 同心演習"],
+        answer: 0,
+        explanation: "軍需物資、工程機具、車輛徵購徵用與生產轉換之實兵演練為「自強演習」。"
+      },
+      {
+        id: "u4_mc_15",
+        unit: "u4",
+        unitName: "基礎民防法令",
+        type: "mc",
+        prompt: "由國防部主導，為國軍部隊每年最重要的實兵演練是？",
+        options: ["(A) 自強演習", "(B) 漢光演習", "(C) 萬安演習", "(D) 同心演習"],
+        answer: 1,
+        explanation: "國軍每年最重要全軍性三軍聯合作戰演練為「漢光演習」。"
+      },
+      {
+        id: "u4_mc_16",
+        unit: "u4",
+        unitName: "基礎民防法令",
+        type: "mc",
+        prompt: "民防團隊任務召集通知，應於幾日前送達受召集人？",
+        options: ["(A) 5日", "(B) 7日", "(C) 10日", "(D) 14日"],
+        answer: 2,
+        explanation: "民防團隊召集通知書應於「10日」前送達受召集人。"
+      },
+      {
+        id: "u4_mc_17",
+        unit: "u4",
+        unitName: "基礎民防法令",
+        type: "mc",
+        prompt: "執行民防團隊工作撫卹金請領規定何者錯誤？",
+        options: [
+          "(A) 最優先請領者為父母",
+          "(B) 遺族同一順序有數人時，其撫卹金應平均請領",
+          "(C) 生前預立遺囑，指定請領撫卹金遺族之順序者，從其遺囑",
+          "(D) 請領消滅時效為二年"
+        ],
+        answer: 0,
+        explanation: "錯誤的是 (A)。法定撫卹金最優先請領順位為配偶及子女，父母為第二順位。"
+      },
+      {
+        id: "u4_mc_18",
+        unit: "u4",
+        unitName: "基礎民防法令",
+        type: "mc",
+        prompt: "何者非徵用命令項目？",
+        options: ["(A) 土地", "(B) 土地改良物", "(C) 運輸工具", "(D) 急救藥品"],
+        answer: 3,
+        explanation: "急救藥品為消耗品，係依規定辦理「徵購」或調度，非歸屬於「徵用」（徵用為具返還性質之物或設施）。"
+      },
+      {
+        id: "u4_mc_19",
+        unit: "u4",
+        unitName: "基礎民防法令",
+        type: "mc",
+        prompt: "何者並非民防法規定之不得徵用人員？",
+        options: [
+          "(A) 身心障礙者",
+          "(B) 列入輔助軍事勤務隊之補充兵及後備軍人者",
+          "(C) 刑事被告判決定讞者",
+          "(D) 依公務性質不適參加編組者"
+        ],
+        answer: 2,
+        explanation: "「刑事被告判決定讞者」並非民防法明列排除不得徵用之法定人員。"
+      },
+      {
+        id: "u4_mc_20",
+        unit: "u4",
+        unitName: "基礎民防法令",
+        type: "mc",
+        prompt: "某工廠達規模而未依規定編組防護團，經通知限期編組仍未於期限內完成。依《民防法》，得如何處罰？",
+        options: [
+          "(A) 處1-5萬元罰鍰，並得按日連續處罰",
+          "(B) 處3-15萬元罰鍰，並得按次連續處罰",
+          "(C) 處5-20 萬元罰鍰，並得按次連續處罰",
+          "(D) 處3-15萬元罰鍰，但不得連續處罰"
+        ],
+        answer: 1,
+        explanation: "依民防法第24條，經令其限期編組逾期未完成者，處新臺幣3萬元以上15萬元以下罰鍰，並得按次連續處罰。"
+      },
+
+      /* ============================================================
+         單元五：防空疏散避難測驗題 
+         是非題 5 題 + 選擇題 10 題
+      ============================================================ */
+      {
+        id: "u5_tf_1",
+        unit: "u5",
+        unitName: "防空疏散避難",
+        type: "tf",
+        prompt: "防空避難室多位於大樓地下室，戰爭時國防部發布命令，民眾進入避難，惟憲法賦予個人財產權之保障，需所有權人同意，方可進入。",
+        options: ["O", "X"],
+        answer: 1,
+        explanation: "錯誤 (X)。空襲警報發布或命令避難時，依法所有人、使用人應立即開放防空避難設施供民眾避難，不得以私產阻擋。"
+      },
+      {
+        id: "u5_tf_2",
+        unit: "u5",
+        unitName: "防空疏散避難",
+        type: "tf",
+        prompt: "建築物所有權人、使用人應維護建築物合法使用與其構造及設備安全。故防空避難設備應避免積水、髒亂，並具備基本照明設備。",
+        options: ["O", "X"],
+        answer: 0,
+        explanation: "正確。管理權人有保持避難室清潔、乾淨、無積水及維持基本照明之法定維護責任。"
+      },
+      {
+        id: "u5_tf_3",
+        unit: "u5",
+        unitName: "防空疏散避難",
+        type: "tf",
+        prompt: "發生空襲危難時，村(里)辦公室於聽到緊急警報發放或收到國家級警報簡訊後，立即利用村(里)廣播器請民眾迅速避難，並引導民眾進入防空避難處所。",
+        options: ["O", "X"],
+        answer: 0,
+        explanation: "正確。村里長與辦公處應即時廣播呼籲疏散避難以維護居民安全。"
+      },
+      {
+        id: "u5_tf_4",
+        unit: "u5",
+        unitName: "防空疏散避難",
+        type: "tf",
+        prompt: "於防空疏散避難設備堆放雜物，進出口通道應保持暢通之規定者，涉及違反公寓大廈管理條例第十六條第二項，處新臺幣四萬元以上二十萬元以下罰鍰，並得令其限期改善或履行義務。",
+        options: ["O", "X"],
+        answer: 0,
+        explanation: "正確。防空避難室通道雜物堆放阻礙逃生，違反公寓大廈管理條例第16條第2項可處4萬至20萬元罰鍰。"
+      },
+      {
+        id: "u5_tf_5",
+        unit: "u5",
+        unitName: "防空疏散避難",
+        type: "tf",
+        prompt: "建築物所有權人、使用人平時於地下層防空避難室放置大型家具等生活用品，且排放整齊乾淨，屬於合理使用範圍，非違規事項。",
+        options: ["O", "X"],
+        answer: 1,
+        explanation: "錯誤 (X)。防空避難設備嚴禁私自堆放任何雜物或大型家具阻礙避難，即便擺放整齊亦屬違規行為。"
+      },
+      /* 避難選擇題 10 題 */
+      {
+        id: "u5_mc_1",
+        unit: "u5",
+        unitName: "防空疏散避難",
+        type: "mc",
+        prompt: "查詢住家附近防空避難處所，下列透過網頁可查詢到的連結，何者為非？",
+        options: [
+          "(1) 於各直轄市、(縣)市社會局網站「避難收容資訊」連結",
+          "(2) 於直轄市、(縣)市警察局網站「防空避難專區」連結",
+          "(3) 於內政部警政署全球資訊網「防空避難專區」連結",
+          "(4) 於內政部消防署網站「簡易疏散避難地圖」連結"
+        ],
+        answer: 0,
+        explanation: "各縣市社會局網站避難收容通常指風災或地震收容所，防空避難專責系統在警政署、各警察局與消防署簡易疏散地圖。"
+      },
+      {
+        id: "u5_mc_2",
+        unit: "u5",
+        unitName: "防空疏散避難",
+        type: "mc",
+        prompt: "民防法規定有關「防空疏散避難」，何者錯誤？",
+        options: [
+          "(1) 國防部得會同有關機關實施防空演習，命令實施疏散避難",
+          "(2) 屬於民防工作範圍",
+          "(3) 僅於戰爭發生或將發生時，由國防部命令實施疏散避難，平時防空演習除外",
+          "(4) 違反疏散避難命令，可處新臺幣三萬元以上十五萬元以下罰鍰"
+        ],
+        answer: 2,
+        explanation: "錯誤的是 (3)。平時實施防空演習（如萬安演習）亦可依法命令實施人車管制與疏散避難。"
+      },
+      {
+        id: "u5_mc_3",
+        unit: "u5",
+        unitName: "防空疏散避難",
+        type: "mc",
+        prompt: "各直轄市、(縣)市政府之防空避難設備核定、公告，其權責機關為何？",
+        options: [
+          "(1) 皆屬警察機關權責",
+          "(2) 分別為主管建築機關、警察機關權責",
+          "(3) 分別為消防機關、警察機關權責",
+          "(4) 皆屬消防機關權責"
+        ],
+        answer: 1,
+        explanation: "建築物附設防空避難設備由「建管機關」核定建照使用執照，再交由「警察機關」列管、建檔與公告。"
+      },
+      {
+        id: "u5_mc_4",
+        unit: "u5",
+        unitName: "防空疏散避難",
+        type: "mc",
+        prompt: "空襲警報響起時，民眾採取的避難措施，何者錯誤？",
+        options: [
+          "(1) 於室內民眾，進入地下室或窗戶較少的房間",
+          "(2) 於室外民眾，進入貼有「防空避難」標示牌處所",
+          "(3) 於空曠地區，利用周邊地形、地物，採避難姿勢就地掩蔽",
+          "(4) 於車上民眾，利用車內座位採避難姿勢掩蔽"
+        ],
+        answer: 3,
+        explanation: "行進中車輛應立即靠邊熄火停放，車內人員應「立即下車」前往附近地下避難設施，絕不可留在車內。"
+      },
+      {
+        id: "u5_mc_5",
+        unit: "u5",
+        unitName: "防空疏散避難",
+        type: "mc",
+        prompt: "有關「防空避難姿勢」何者正確？",
+        options: [
+          "(1) 趴下降低高度、雙手護頭、背對爆炸、穩定靜止等待機會移動",
+          "(2) 跪姿、雙手護頭、嘴巴稍張",
+          "(3) 跪姿、胸口離地、雙手遮嘴、鼻，眼睛稍張",
+          "(4) 跪姿、胸口離地、雙手遮眼、耳，嘴巴稍張"
+        ],
+        answer: 0,
+        explanation: "正確防空避難姿勢核心為：趴下降低體位高度、雙手保護頭頸、背對爆炸方向，胸口微離地，嘴巴微張。"
+      },
+      {
+        id: "u5_mc_6",
+        unit: "u5",
+        unitName: "防空疏散避難",
+        type: "mc",
+        prompt: "民眾透過手機查詢的防空避難處所資訊，下列選項何者最正確？",
+        options: [
+          "(1) 內政部消防署「防災e點通」APP 可查詢",
+          "(2) 內政部警政署「警政服務」APP 可查詢",
+          "(3) 數位發展部設置的「政府資料開放平台」網站上可查詢",
+          "(4) 以上皆是"
+        ],
+        answer: 3,
+        explanation: "以上三種官方 APP 與中央政府資料開放平臺均可精準查詢防空避難處所地圖。"
+      },
+      {
+        id: "u5_mc_7",
+        unit: "u5",
+        unitName: "防空疏散避難",
+        type: "mc",
+        prompt: "下列何者非國防部全動署於全民國防手冊建議的「個人緊急避難包」必備物品？",
+        options: ["(1) 個人生活日記", "(2) 個人慢性病藥", "(3) 收音機", "(4) 個人身分證件"],
+        answer: 0,
+        explanation: "「生活日記」並非維護生存與驗證身份之必備緊急避難物資。"
+      },
+      {
+        id: "u5_mc_8",
+        unit: "u5",
+        unitName: "防空疏散避難",
+        type: "mc",
+        prompt: "警察機關於大樓建築物張貼「防空避難標示牌」公告該地下室經核准為防空避難室，防空疏散避難識別使用，下列有關張貼的位置，何者為非？",
+        options: [
+          "(1) 6樓公寓大樓門牌處",
+          "(2) 通往12 層樓高社區大樓地下室車道出、入口",
+          "(3) 百貨公司往地下室的電梯門口",
+          "(4) 校園內往地下室的入口"
+        ],
+        answer: 2,
+        explanation: "標示牌張貼於主要進出口門牌、顯眼車道與樓梯入口，非張貼於「電梯門口」（避難時禁止使用電梯）。"
+      },
+      {
+        id: "u5_mc_9",
+        unit: "u5",
+        unitName: "防空疏散避難",
+        type: "mc",
+        prompt: "防空避難標示牌上的資訊，下列何者最正確？",
+        options: ["(1) 防空避難 icon", "(2) 標題(中英文)", "(3) 方向指引", "(4) 以上皆是"],
+        answer: 3,
+        explanation: "新式防空避難標示牌同時印有黃藍專用圖示(icon)、中英文字樣、容納人數及方向導引箭頭。"
+      },
+      {
+        id: "u5_mc_10",
+        unit: "u5",
+        unitName: "防空疏散避難",
+        type: "mc",
+        prompt: "遇有空襲情形時，「緊急警報音符」，其內容為何？",
+        options: [
+          "(1) 一長音 90秒",
+          "(2) 一長音兩短音，長音10秒、短音5秒，中間間隔5秒，重複3次，共100秒",
+          "(3) 一長音兩短音，長音15秒、短音5秒，中間間隔5秒，重複 3次，共115秒",
+          "(4) 鳴5秒，停5秒，反覆9次，共85秒"
+        ],
+        answer: 2,
+        explanation: "緊急警報為「一長音兩短音，長音15秒、短音5秒，各間隔5秒，重複3次，共115秒」。"
+      },
+
+      /* ============================================================
+         單元六：警察勤務介紹與協勤要領試題 (選擇題 20 題)
+      ============================================================ */
+      {
+        id: "u6_mc_1",
+        unit: "u6",
+        unitName: "警察勤務與協勤",
+        type: "mc",
+        prompt: "依警察勤務條例第3條規定，警察勤務之實施，應晝夜執行，普及轄區，並以行政警察為中心，其他各種警察配合之，下列敘述何者正確？",
+        options: [
+          "(A) 普及轄區係指永不間斷，規範警察勤務之時間，值班勤務最能彰顯此精神",
+          "(B) 臺北市政府警察局大安分局偵查隊所屬之刑事警察，配合警勤區劃分其責任區，係屬「行政警察」",
+          "(C) 連江縣警察局東引警察所，係屬「其他各種警察」",
+          "(D) 警勤區員警於轄區里民活動中，向社區里民進行宣導，係適用「以行政警察為中心」之警察勤務制度"
+        ],
+        answer: 3,
+        explanation: "警勤區員警深入社區宣導落實家戶與社區連結，正符合以行政警察為骨幹中心之制度精神。"
+      },
+      {
+        id: "u6_mc_2",
+        unit: "u6",
+        unitName: "警察勤務與協勤",
+        type: "mc",
+        prompt: "警察勤務原則說明，何者錯誤？",
+        options: [
+          "(A) 不需符合私生活自由原則",
+          "(B) 不合警察目的者，不得任意擴張",
+          "(C) 以不干涉民事法律關係為原則",
+          "(D) 比例原則要素之一為必要性"
+        ],
+        answer: 0,
+        explanation: "錯誤的是 (A)。警察行使職權仍必須尊重民眾之私生活自由原則與隱私保障，不得任意侵害。"
+      },
+      {
+        id: "u6_mc_3",
+        unit: "u6",
+        unitName: "警察勤務與協勤",
+        type: "mc",
+        prompt: "依警察勤務條例規定，下列何者不是勤務方式之執行？",
+        options: [
+          "(A) 勤區查察、巡邏、臨檢、守望、值班及備勤等六大勤務，得視服勤人數及轄區治安情形，採用巡邏及其他方式互換之；但均以巡邏為主",
+          "(B) 各級勤務機構因治安需要，得指派人員編組機動隊(組)，運用組合警力，在指定地區執行巡邏、路檢、臨檢等勤務",
+          "(C) 警察局或分局設有各種警察隊(組)，依其任務，分派人員，服行各該專屬勤務",
+          "(D) 共同勤務是由服勤人員依據勤務分配表，輪流交替互換實施"
+        ],
+        answer: 0,
+        explanation: "法條明定得互換實施，但「以勤區查察為主」，並非以巡邏為主。"
+      },
+      {
+        id: "u6_mc_4",
+        unit: "u6",
+        unitName: "警察勤務與協勤",
+        type: "mc",
+        prompt: "依據警察勤務條例規定，下列何者為錯誤？",
+        options: [
+          "(A) 分派勤務，力求勞逸平均，動靜工作務使均勻，藉以調節精神體力",
+          "(B) 警察分局為勤務規劃監督機構，負責轄區警察勤務之規劃、指揮、管制、督導及考核，並對重點性勤務，得逕為執行",
+          "(C) 警察局或分局設有各種警察隊(組)者，應依其任務，分派人員，服行各該專屬勤務，構成轄區點、線、面，整體勤務之實施",
+          "(D) 勤前教育之實施，由警察機關視所轄勤務機構實際情形，規定其實施方式、時間及次數"
+        ],
+        answer: 1,
+        explanation: "警察分局是「勤務執行機構」（派出機關），規劃監督機構為警察局，分局對重點性勤務依規定指派專屬部隊執行。"
+      },
+      {
+        id: "u6_mc_5",
+        unit: "u6",
+        unitName: "警察勤務與協勤",
+        type: "mc",
+        prompt: "關於執行守望勤務，下列敘述何者錯誤？",
+        options: [
+          "(A) 活動範圍可在崗位周圍約200公尺內巡視",
+          "(B) 執行便衣守望勤務，應依任務需要，力求藏於無形",
+          "(C) 固定式守望勤務以預防危害發生為目標，於轄區之重要地點，設置崗位",
+          "(D) 為任務需要，得於特定處所設置守望崗"
+        ],
+        answer: 0,
+        explanation: "錯誤的是 (A)。守望員警活動範圍通常以崗位周圍約 30 至 50 公尺為限，不可擅自漫延至 200 公尺。"
+      },
+      {
+        id: "u6_mc_6",
+        unit: "u6",
+        unitName: "警察勤務與協勤",
+        type: "mc",
+        prompt: "依據警察勤務條例規定，請問警察局基於何種情況，須分別實施個別勤務與共同勤務時，得以分局或分駐所、派出所為單位，指派員警專責執行勤區查察？",
+        options: ["(A) 人口需要", "(B) 事實需要", "(C) 業務需要", "(D) 面積需要"],
+        answer: 1,
+        explanation: "依警察勤務條例規定，警察局基於「事實需要」，得指派員警專責執行勤區查察。"
+      },
+      {
+        id: "u6_mc_7",
+        unit: "u6",
+        unitName: "警察勤務與協勤",
+        type: "mc",
+        prompt: "警察勤務的運作模式說明，何者錯誤？",
+        options: [
+          "(A) 反應式勤務可適時提供民眾所請求的服務",
+          "(B) 反應式勤務較可主動打擊無被害者犯罪",
+          "(C) 先發式策略易擴大警察機關權限",
+          "(D) 社區警政為先發式策略"
+        ],
+        answer: 1,
+        explanation: "錯誤的是 (B)。無被害者犯罪（如賭博、毒品）民眾鮮少主動報警，需仰賴警察採「主動先發式勤務」偵查取締。"
+      },
+      {
+        id: "u6_mc_8",
+        unit: "u6",
+        unitName: "警察勤務與協勤",
+        type: "mc",
+        prompt: "警察勤務的編組與分類方式，何者錯誤？",
+        options: [
+          "(A) 現行夜間勤務起迄時間為下午18時至24時",
+          "(B) 守望屬個別勤務",
+          "(C) 勤區查察就算雙人編組仍為個別勤務",
+          "(D) 目前各警察局所轄分駐、派出所為散在制"
+        ],
+        answer: 1,
+        explanation: "錯誤的是 (B)。守望勤務依法定分類屬於「共同勤務」，非個別勤務（個別勤務為勤區查察）。"
+      },
+      {
+        id: "u6_mc_9",
+        unit: "u6",
+        unitName: "警察勤務與協勤",
+        type: "mc",
+        prompt: "下列有關警察分駐所、派出所之設置，何者錯誤？",
+        options: [
+          "(A) 警察分駐所與派出所兩者均被定位為警察勤務執行機構",
+          "(B) 分駐派出所設置的目的有3個：即組合警勤區、形成治安面以及供作服務站",
+          "(C) 分駐所、派出所設置或裁併所需經費，由該管警察局陳報內政部警政署編列經費",
+          "(D) 基於行政裁量權或效率等原因，警察機關在覺得必要時得主動設置分駐派出所"
+        ],
+        answer: 2,
+        explanation: "錯誤的是 (C)。直轄市、縣(市)警察局所屬分駐派出所經費由各「地方縣市政府」編列預算負擔，非警政署直接編列。"
+      },
+      {
+        id: "u6_mc_10",
+        unit: "u6",
+        unitName: "警察勤務與協勤",
+        type: "mc",
+        prompt: "警察分局地位說明，何者錯誤？",
+        options: [
+          "(A) 意義上為派出機關",
+          "(B) 亦為轄區內各勤務執行機構督考者",
+          "(C) 警察分局著重執行重點性勤務",
+          "(D) 不得聯合多個鄉鎮成立分局"
+        ],
+        answer: 3,
+        explanation: "錯誤的是 (D)。人口稀少地區得視治安與地理狀況聯合數個鄉鎮市區合設一個警察分局。"
+      },
+      {
+        id: "u6_mc_11",
+        unit: "u6",
+        unitName: "警察勤務與協勤",
+        type: "mc",
+        prompt: "有關巡邏勤務之敘述，下列何者正確？",
+        options: [
+          "(A) 直轄市警察分局警備隊負責執行第二層巡邏網，應配合分駐(派出)所轄區實施點線巡邏或集中機動派遣",
+          "(B) 派出所執行第一層巡邏勤務員警於任務目標區實施小區域步巡時，通常以每秒走1.5步至2步為原則",
+          "(C) 直轄市警察局之第三層巡邏網係由交通警察大隊負責，應依地區特性及治安、交通事故資料分析，劃分巡邏區，並配合分駐(派出)所轄區規劃巡邏網，選定巡邏要點",
+          "(D) 巡邏員警出勤時應向勤務指揮中心試通無線電，並向該中心報告「出網」列管，巡邏途中約每20分鐘定時報告一次，收勤時應報告經允許後始可關閉電台收勤，並將巡邏車開回駐地停放，結束巡邏勤務"
+        ],
+        answer: 1,
+        explanation: "派出所員警在特定治安目標區域步巡時，通常以每秒走1.5至2步之等速平穩步伐為原則，以利觀察周邊狀況。"
+      },
+      {
+        id: "u6_mc_12",
+        unit: "u6",
+        unitName: "警察勤務與協勤",
+        type: "mc",
+        prompt: "警察分駐(派出所)性質說明，何者錯誤？",
+        options: [
+          "(A) 結合數個警勤區為其轄區",
+          "(B) 所長應親自規劃、分配各警勤區個別及共同勤務",
+          "(C) 警衛派出所無警勤區",
+          "(D) 得對外行文"
+        ],
+        answer: 3,
+        explanation: "分駐所、派出所為警察分局之內部「勤務機構」，非獨立公務法人機關，對外不得直接具名行文發出正式公文。"
+      },
+      {
+        id: "u6_mc_13",
+        unit: "u6",
+        unitName: "警察勤務與協勤",
+        type: "mc",
+        prompt: "關於勤務指揮中心作業規定對於勤務動態管制的要求，下列敘述何者錯誤？",
+        options: [
+          "(A) 巡邏勤務原則上採定時報告，每小時不得少於1次",
+          "(B) 員警駕駛有GPS 功能警車或攜帶警用行動載具並登入系統者，即可完全免除所有報告義務",
+          "(C) 員警遇可疑人車，應於盤查前先向勤指中心報告地點、對象特徵等資訊，盤查結束後亦應回報",
+          "(D) 巡邏勤務若違反定時定點報告或勤務抽呼查詢規定，應依警察人員獎懲標準懲處"
+        ],
+        answer: 1,
+        explanation: "錯誤的是 (B)。GPS 僅為輔助定位工具，遇盤查、事故或重要勤務節點仍負有即時通報之報告義務，絕不能免除。"
+      },
+      {
+        id: "u6_mc_14",
+        unit: "u6",
+        unitName: "警察勤務與協勤",
+        type: "mc",
+        prompt: "依據警察勤務條例規定，在警察分局與警察分駐(派出)所之區別上，警察分局係定位於勤務的規劃、指揮、管制、督導與考核之機構，以及重點性勤務執行的機構，請問在警察分局與警察分駐(派出)所之間，下列何者屬於這兩者最重要的區別？",
+        options: [
+          "(A) 敬業精神表現與應對能力",
+          "(B) 工作複雜程度與溝通管道",
+          "(C) 行政行為表現與經濟規模",
+          "(D) 員警民主素養與服從態度"
+        ],
+        answer: 2,
+        explanation: "分局具備對外行政處分行為表現權力與完整組織經濟規模，分駐所純為內部第一線執行機構。"
+      },
+      {
+        id: "u6_mc_15",
+        unit: "u6",
+        unitName: "警察勤務與協勤",
+        type: "mc",
+        prompt: "警察勤務方式說明，何者錯誤？",
+        options: [
+          "(A) 勤區查察可用家戶訪查方式執行",
+          "(B) 巡邏時可執行檢查、取締、盤詰等工作",
+          "(C) 備勤時主要在勤務機構待命",
+          "(D) 臨檢主要工作為警戒、警衛、管制"
+        ],
+        answer: 3,
+        explanation: "錯誤的是 (D)。警戒、警衛、管制係「守望」之主要任務；「臨檢」主要在於公共場所之檢查、查證身分與取締犯罪。"
+      },
+      {
+        id: "u6_mc_16",
+        unit: "u6",
+        unitName: "警察勤務與協勤",
+        type: "mc",
+        prompt: "有關定線與非定線巡邏之敘述，何者錯誤？",
+        options: [
+          "(A) 定線較易遍及全區",
+          "(B) 定線容易監督不易偷勤",
+          "(C) 不定線授權巡邏人員自行選定路線",
+          "(D) 不定線嚇阻效用較大"
+        ],
+        answer: 0,
+        explanation: "錯誤的是 (A)。定線巡邏路線固定呆板，不易遍及全轄區死角；非定線巡邏或彈性巡邏才能出其不意擴大覆蓋面。"
+      },
+      {
+        id: "u6_mc_17",
+        unit: "u6",
+        unitName: "警察勤務與協勤",
+        type: "mc",
+        prompt: "警察勤務繁重經常影響員警之休假，依「警察機關輪班輪休人員勤休實施要點」規定，有關員警休息時間，下列敘述何者正確？",
+        options: [
+          "(A) 依其服務機關之輪班輪休制度排定，服勤人員每週應有二日以上之休息時間",
+          "(B) 如因勤務需要，可調整為每二週內有四日之休息，或每四週內有八日之休息",
+          "(C) 服勤日中至少應有連續一小時之休息，由各警察機關於服勤時數內調配之，休息時間可計入服勤時數",
+          "(D) 服勤人員更換班次時，至少應有連續八小時之休息時間"
+        ],
+        answer: 1,
+        explanation: "因應執勤特殊需要，得經規定調整為每2週內有4日之休息，或每4週內有8日之休息。"
+      },
+      {
+        id: "u6_mc_18",
+        unit: "u6",
+        unitName: "警察勤務與協勤",
+        type: "mc",
+        prompt: "勤前教育敘述，何者錯誤？",
+        options: [
+          "(A) 聯合勤教以派出所為單位",
+          "(B) 偵查隊可實施基層勤教",
+          "(C) 基層勤教可檢查裝備服儀",
+          "(D) 勤教可併計服勤時數"
+        ],
+        answer: 0,
+        explanation: "錯誤的是 (A)。「聯合勤前教育」以警察分局或警察局為單位召集舉行；「基層勤前教育」才以派出所或分隊為單位。"
+      },
+      {
+        id: "u6_mc_19",
+        unit: "u6",
+        unitName: "警察勤務與協勤",
+        type: "mc",
+        prompt: "警察勤務實施方式與規劃，會隨時代演進而有所不同，有關警察勤務規劃之敘述，下列何者錯誤？",
+        options: [
+          "(A) 警察勤務有賴縝密規劃，規劃上大約可分為集中制、散在制、集中散在併用制",
+          "(B) 規劃原則必須是全面性，考量地區治安特性及人力狀況，一天24小時持續不斷的警戒",
+          "(C) 勤務規劃重心，從早期以著重破案率而強調專業化警政，並以犯罪偵查為重點的方式，逐步調整為破案與預防並重模式",
+          "(D) 社區警政的基本精神是運用民力以預防犯罪，在警察勤務中，則以勤區查察之家戶訪查方式為手段，強調犯罪預防、為民服務及社會治安調查等任務"
+        ],
+        answer: 2,
+        explanation: "依原題意考點，(C) 選項敘述時代演進順序存在缺陷（現代強調問題導向與預防優先）。"
+      },
+      {
+        id: "u6_mc_20",
+        unit: "u6",
+        unitName: "警察勤務與協勤",
+        type: "mc",
+        prompt: "聯合指揮所開設敘述，何者錯誤？",
+        options: [
+          "(A) 3級開設時由勤指中心主任督導運作",
+          "(B) 發生社會治安狀況時由長官核定2級開設",
+          "(C) 1級開設時由幕僚長主持",
+          "(D) 3級開設時編組人員保持正常作息"
+        ],
+        answer: 2,
+        explanation: "錯誤的是 (C)。聯合指揮所一級開設時，由警察機關「局長（主官）」親自主持指揮，而非幕僚長。"
+      }
+    ];
+
+    // App State
+    let currentFilter = 'all';
+    let currentMode = 'practice'; // 'practice' | 'exam' | 'mistakes' | 'starred'
+    let filteredQuestions = [...QUESTIONS];
+    let currentIndex = 0;
+    let userAnswers = {}; // { questionId: selectedOptionIndex }
+    let mistakeIds = new Set();
+    let starredIds = new Set();
+    let examSubmitted = false;
+    let confirmCallback = null;
+
+    // Load persisted state from localStorage
+    function loadStorage() {
+      try {
+        const savedStarred = localStorage.getItem('p1_starred');
+        if (savedStarred) starredIds = new Set(JSON.parse(savedStarred));
+        const savedMistakes = localStorage.getItem('p1_mistakes');
+        if (savedMistakes) mistakeIds = new Set(JSON.parse(savedMistakes));
+        const savedAnswers = localStorage.getItem('p1_answers');
+        if (savedAnswers) userAnswers = JSON.parse(savedAnswers);
+      } catch (e) {
+        console.warn("LocalStorage access error:", e);
+      }
+    }
+
+    function saveStorage() {
+      try {
+        localStorage.setItem('p1_starred', JSON.stringify([...starredIds]));
+        localStorage.setItem('p1_mistakes', JSON.stringify([...mistakeIds]));
+        localStorage.setItem('p1_answers', JSON.stringify(userAnswers));
+      } catch (e) {
+        console.warn("LocalStorage save error:", e);
+      }
+    }
+
+    // Theme toggle
+    function toggleTheme() {
+      document.documentElement.classList.toggle('dark');
+      const isDark = document.documentElement.classList.contains('dark');
+      localStorage.setItem('p1_theme', isDark ? 'dark' : 'light');
+      showToast(isDark ? "已切換至深色模式" : "已切換至淺色模式", "fa-circle-half-stroke");
+    }
+
+    function initTheme() {
+      const savedTheme = localStorage.getItem('p1_theme');
+      if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+      }
+    }
+
+    // Custom Toast Notification
+    let toastTimeout = null;
+    function showToast(msg, icon = 'fa-check') {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toastMsg');
+      const toastIcon = document.getElementById('toastIcon');
+      
+      toastMsg.innerText = msg;
+      toastIcon.className = `fa-solid ${icon}`;
+      toast.classList.remove('opacity-0', 'pointer-events-none');
+
+      clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        toast.classList.add('opacity-0', 'pointer-events-none');
+      }, 1800);
+    }
+
+    function filterQuestions() {
+      filteredQuestions = QUESTIONS.filter(q => {
+        // Unit Filter
+        if (currentFilter !== 'all' && q.unit !== currentFilter) return false;
+        // Mode Specific Filter
+        if (currentMode === 'mistakes' && !mistakeIds.has(q.id)) return false;
+        if (currentMode === 'starred' && !starredIds.has(q.id)) return false;
+        return true;
+      });
+
+      if (currentIndex >= filteredQuestions.length) {
+        currentIndex = Math.max(0, filteredQuestions.length - 1);
+      }
+    }
+
+    function setFilter(unit) {
+      currentFilter = unit;
+      document.querySelectorAll('.unit-filter-btn').forEach(btn => {
+        if (btn.dataset.unit === unit) {
+          btn.className = "unit-filter-btn shrink-0 px-2.5 py-1 rounded-full border border-indigo-500 bg-indigo-50 dark:bg-indigo-950/50 text-indigo-600 dark:text-indigo-300 font-bold";
+        } else {
+          btn.className = "unit-filter-btn shrink-0 px-2.5 py-1 rounded-full border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300";
+        }
+      });
+      currentIndex = 0;
+      filterQuestions();
+      renderApp();
+    }
+
+    function switchMode(mode) {
+      currentMode = mode;
+      examSubmitted = false;
+      currentIndex = 0;
+
+      // Update Top Nav Mode Pills
+      ['practice', 'exam', 'mistakes', 'starred'].forEach(m => {
+        const btn = document.getElementById(`mode-${m}`);
+        if (m === mode) {
+          btn.className = "py-1.5 rounded-lg text-center transition-all bg-white dark:bg-slate-700 shadow-sm text-indigo-600 dark:text-indigo-300 font-bold";
+        } else {
+          btn.className = "py-1.5 rounded-lg text-center transition-all text-slate-600 dark:text-slate-300 font-normal";
+        }
+      });
+
+      // Update badge label
+      const badgeMap = {
+        practice: "即時回饋模式",
+        exam: "全真測驗模式",
+        mistakes: "錯題專屬刷題",
+        starred: "我的重點收藏"
+      };
+      document.getElementById('modeBadgeText').innerText = badgeMap[mode];
+
+      // Toggle Submit button in Exam mode
+      const submitBtn = document.getElementById('submitExamBtn');
+      const nextBtn = document.getElementById('nextBtn');
+      if (mode === 'exam') {
+        submitBtn.classList.remove('hidden');
+      } else {
+        submitBtn.classList.add('hidden');
+        nextBtn.classList.remove('hidden');
+      }
+
+      filterQuestions();
+      renderApp();
+      showToast(`已切換至「${badgeMap[mode]}」`, 'fa-arrows-rotate');
+    }
+
+    function renderApp() {
+      updateBadges();
+
+      const emptyContainer = document.getElementById('emptyContainer');
+      const questionCard = document.getElementById('questionCard');
+
+      if (filteredQuestions.length === 0) {
+        questionCard.classList.add('hidden');
+        emptyContainer.classList.remove('hidden');
+
+        if (currentMode === 'mistakes') {
+          document.getElementById('emptyIcon').className = "fa-solid fa-face-smile text-emerald-500 text-3xl";
+          document.getElementById('emptyTitle').innerText = "太棒了！沒有任何錯題";
+          document.getElementById('emptySub').innerText = "持續在練習或測驗中保持全對吧！";
+        } else if (currentMode === 'starred') {
+          document.getElementById('emptyIcon').className = "fa-solid fa-star text-amber-400 text-3xl";
+          document.getElementById('emptyTitle').innerText = "尚未加入任何收藏題";
+          document.getElementById('emptySub').innerText = "遇到困難或重要題目時，點擊右上角星號即可收藏。";
+        } else {
+          document.getElementById('emptyIcon').className = "fa-solid fa-inbox text-3xl";
+          document.getElementById('emptyTitle').innerText = "該單元無相符題目";
+          document.getElementById('emptySub').innerText = "請嘗試選擇其他分類或全部題目。";
+        }
+
+        document.getElementById('progressText').innerText = "0 / 0";
+        document.getElementById('footerQuestionIndex').innerText = "0/0";
+        document.getElementById('progressBar').style.width = "0%";
+        return;
+      }
+
+      emptyContainer.classList.add('hidden');
+      questionCard.classList.remove('hidden');
+
+      const q = filteredQuestions[currentIndex];
+      const isStarred = starredIds.has(q.id);
+      const userAnswer = userAnswers[q.id];
+
+      // Update Headers
+      document.getElementById('badgeCategory').innerText = q.unitName;
+      document.getElementById('badgeType').innerText = q.type === 'tf' ? '是非題' : '選擇題';
+      document.getElementById('questionPrompt').innerText = `${currentIndex + 1}. ${q.prompt}`;
+
+      // Star Icon
+      const starBtn = document.getElementById('starBtn');
+      starBtn.innerHTML = `<i class="${isStarred ? 'fa-solid text-amber-500' : 'fa-regular text-slate-300 dark:text-slate-600'} fa-star text-xl"></i>`;
+
+      // Render Options
+      const optionsContainer = document.getElementById('optionsContainer');
+      optionsContainer.innerHTML = '';
+
+      q.options.forEach((optText, optIdx) => {
+        const btn = document.createElement('button');
+        btn.className = "w-full text-left p-3.5 rounded-xl border font-medium text-xs sm:text-sm flex items-start space-x-3 transition-all active:scale-[0.99] ";
+        
+        let labelIcon = '';
+        if (q.type === 'tf') {
+          labelIcon = optIdx === 0 ? '<span class="font-bold text-emerald-600 dark:text-emerald-400 mr-1.5">[ 正確 ]</span>' : '<span class="font-bold text-rose-500 mr-1.5">[ 錯誤 ]</span>';
+        }
+
+        // Logic for Option Display based on mode & answered state
+        const isSelected = userAnswer === optIdx;
+        const isCorrect = q.answer === optIdx;
+
+        if (currentMode === 'practice' || examSubmitted) {
+          // Instant feedback / Exam reviewed
+          if (userAnswer !== undefined) {
+            btn.disabled = true;
+            if (isCorrect) {
+              btn.className += "border-emerald-500 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-900 dark:text-emerald-200 font-bold ring-2 ring-emerald-500/20";
+            } else if (isSelected) {
+              btn.className += "border-rose-500 bg-rose-50 dark:bg-rose-950/40 text-rose-900 dark:text-rose-200 font-semibold";
+            } else {
+              btn.className += "border-slate-200 dark:border-slate-800 opacity-60 text-slate-600 dark:text-slate-400";
+            }
+          } else {
+            btn.className += "border-slate-200 dark:border-slate-800 hover:border-indigo-400 dark:hover:border-indigo-600 bg-white dark:bg-slate-800/80 text-slate-800 dark:text-slate-200 shadow-sm";
+          }
+        } else {
+          // Exam mode before submit
+          if (isSelected) {
+            btn.className += "border-indigo-600 bg-indigo-50 dark:bg-indigo-950/50 text-indigo-700 dark:text-indigo-200 font-bold ring-2 ring-indigo-500/20";
+          } else {
+            btn.className += "border-slate-200 dark:border-slate-800 hover:border-indigo-300 dark:hover:border-slate-700 bg-white dark:bg-slate-800/80 text-slate-800 dark:text-slate-200 shadow-sm";
+          }
+        }
+
+        btn.onclick = () => handleSelectOption(optIdx);
+
+        btn.innerHTML = `
+          <div class="w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold shrink-0 mt-0.5 ${
+            isSelected 
+              ? (currentMode === 'practice' || examSubmitted ? (isCorrect ? 'bg-emerald-600 text-white' : 'bg-rose-500 text-white') : 'bg-indigo-600 text-white')
+              : 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300'
+          }">
+            ${q.type === 'tf' ? (optIdx === 0 ? 'O' : 'X') : String.fromCharCode(65 + optIdx)}
+          </div>
+          <div class="flex-1 leading-normal pt-0.5">
+            ${labelIcon}${optText}
+          </div>
+        `;
+        optionsContainer.appendChild(btn);
+      });
+
+      // Explanation Box Visibility
+      const expBox = document.getElementById('explanationBox');
+      const expText = document.getElementById('explanationText');
+      const ansBadge = document.getElementById('correctAnswerBadge');
+
+      if ((currentMode === 'practice' || examSubmitted) && userAnswer !== undefined) {
+        expBox.classList.remove('hidden');
+        expText.innerText = q.explanation || "暫無特別備註，掌握基本觀念即可！";
+        
+        let correctStr = q.type === 'tf' 
+          ? (q.answer === 0 ? 'O (正確)' : 'X (錯誤)') 
+          : `(${q.answer + 1}) ${q.options[q.answer]}`;
+        ansBadge.innerText = `正確答案：${correctStr}`;
+      } else {
+        expBox.classList.add('hidden');
+      }
+
+      // Update Navigation & Bottom bar numbers
+      document.getElementById('prevBtn').disabled = currentIndex === 0;
+      document.getElementById('progressText').innerText = `第 ${currentIndex + 1} / ${filteredQuestions.length} 題`;
+      document.getElementById('footerQuestionIndex').innerText = `${currentIndex + 1}/${filteredQuestions.length}`;
+      
+      const pct = Math.round(((currentIndex + 1) / filteredQuestions.length) * 100);
+      document.getElementById('progressBar').style.width = `${pct}%`;
+
+      updateGlobalStats();
+    }
+
+    function handleSelectOption(optIdx) {
+      const q = filteredQuestions[currentIndex];
+      
+      // Save Answer
+      userAnswers[q.id] = optIdx;
+
+      // If in practice mode or mistake mode: verify immediately
+      if (currentMode === 'practice' || currentMode === 'mistakes' || currentMode === 'starred') {
+        if (optIdx === q.answer) {
+          // Correct
+          if (mistakeIds.has(q.id)) {
+            // Remove from mistakes once answered correctly
+            mistakeIds.delete(q.id);
+            showToast("答對了！已自錯題庫移除", "fa-circle-check");
+          } else {
+            showToast("答對了！太棒了", "fa-check");
+          }
+        } else {
+          // Wrong
+          mistakeIds.add(q.id);
+          showToast("答錯了！已收入錯題專區", "fa-xmark");
+        }
+      }
+
+      saveStorage();
+      renderApp();
+    }
+
+    function toggleCurrentStar() {
+      if (filteredQuestions.length === 0) return;
+      const q = filteredQuestions[currentIndex];
+      if (starredIds.has(q.id)) {
+        starredIds.delete(q.id);
+        showToast("已從收藏庫移除", "fa-star");
+      } else {
+        starredIds.add(q.id);
+        showToast("已加入重點收藏", "fa-star");
+      }
+      saveStorage();
+      renderApp();
+    }
+
+    function nextQuestion() {
+      if (currentIndex < filteredQuestions.length - 1) {
+        currentIndex++;
+        renderApp();
+      } else {
+        showToast("已到達最後一題！", "fa-flag-checkered");
+      }
+    }
+
+    function prevQuestion() {
+      if (currentIndex > 0) {
+        currentIndex--;
+        renderApp();
+      }
+    }
+
+    function updateBadges() {
+      const mistakeBadge = document.getElementById('mistakeBadge');
+      if (mistakeIds.size > 0) {
+        mistakeBadge.innerText = mistakeIds.size;
+        mistakeBadge.classList.remove('hidden');
+      } else {
+        mistakeBadge.classList.add('hidden');
+      }
+
+      const starredBadge = document.getElementById('starredBadge');
+      if (starredIds.size > 0) {
+        starredBadge.innerText = starredIds.size;
+        starredBadge.classList.remove('hidden');
+      } else {
+        starredBadge.classList.add('hidden');
+      }
+    }
+
+    function updateGlobalStats() {
+      let answeredCount = 0;
+      let correctCount = 0;
+
+      QUESTIONS.forEach(q => {
+        if (userAnswers[q.id] !== undefined) {
+          answeredCount++;
+          if (userAnswers[q.id] === q.answer) correctCount++;
+        }
+      });
+
+      document.getElementById('answeredCount').innerText = `${answeredCount}/${QUESTIONS.length}`;
+      const rate = answeredCount > 0 ? Math.round((correctCount / answeredCount) * 100) : 0;
+      document.getElementById('accuracyRate').innerText = `${rate}%`;
+    }
+
+    function openDrawer() {
+      const grid = document.getElementById('drawerGrid');
+      grid.innerHTML = '';
+
+      filteredQuestions.forEach((q, idx) => {
+        const cell = document.createElement('button');
+        const ans = userAnswers[q.id];
+        const isCurrent = idx === currentIndex;
+        const isStarred = starredIds.has(q.id);
+
+        let bgClass = "bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300";
+        if (ans !== undefined) {
+          if (currentMode === 'exam' && !examSubmitted) {
+            bgClass = "bg-indigo-500 text-white font-bold";
+          } else {
+            bgClass = ans === q.answer ? "bg-emerald-500 text-white font-bold" : "bg-rose-500 text-white font-bold";
+          }
+        }
+
+        cell.className = `h-11 rounded-xl flex flex-col items-center justify-center relative font-semibold transition-transform active:scale-95 ${bgClass} ${
+          isCurrent ? 'ring-2 ring-indigo-600 ring-offset-2 dark:ring-offset-slate-900' : ''
+        }`;
+
+        cell.onclick = () => {
+          currentIndex = idx;
+          closeDrawer();
+          renderApp();
+        };
+
+        cell.innerHTML = `
+          <span>${idx + 1}</span>
+          ${isStarred ? '<span class="absolute top-1 right-1 text-[8px] text-amber-300"><i class="fa-solid fa-star"></i></span>' : ''}
+        `;
+        grid.appendChild(cell);
+      });
+
+      document.getElementById('drawerOverlay').classList.remove('hidden');
+    }
+
+    function closeDrawer(e) {
+      if (e && e.target !== document.getElementById('drawerOverlay') && e.target !== undefined) return;
+      document.getElementById('drawerOverlay').classList.add('hidden');
+    }
+
+    function openExamSubmitConfirm() {
+      let unans = 0;
+      filteredQuestions.forEach(q => {
+        if (userAnswers[q.id] === undefined) unans++;
+      });
+
+      const desc = unans > 0 
+        ? `您尚有 ${unans} 題未作答，確定現在交卷嗎？` 
+        : `全部題目均已作答完成，確定要交卷結算成績嗎？`;
+
+      openCustomConfirm("確認交卷？", desc, submitExam, "fa-paper-plane");
+    }
+
+    function submitExam() {
+      examSubmitted = true;
+      let correct = 0;
+      let wrong = 0;
+
+      filteredQuestions.forEach(q => {
+        const userA = userAnswers[q.id];
+        if (userA === q.answer) {
+          correct++;
+        } else {
+          wrong++;
+          mistakeIds.add(q.id);
+        }
+      });
+
+      saveStorage();
+      renderApp();
+
+      // Show Result Modal
+      const total = filteredQuestions.length;
+      const score = Math.round((correct / total) * 100);
+      document.getElementById('resultScore').innerText = `${score}分`;
+      document.getElementById('resultCorrect').innerText = correct;
+      document.getElementById('resultWrong').innerText = wrong;
+
+      document.getElementById('examResultModal').classList.remove('hidden');
+      document.getElementById('examResultModal').classList.add('flex');
+    }
+
+    function reviewExamMistakes() {
+      closeResultModal();
+      switchMode('mistakes');
+    }
+
+    function retryExam() {
+      closeResultModal();
+      // Clear answers in current set
+      filteredQuestions.forEach(q => {
+        delete userAnswers[q.id];
+      });
+      saveStorage();
+      currentIndex = 0;
+      examSubmitted = false;
+      renderApp();
+      showToast("測驗已重新開始！", "fa-rotate-left");
+    }
+
+    function closeResultModal() {
+      document.getElementById('examResultModal').classList.add('hidden');
+      document.getElementById('examResultModal').classList.remove('flex');
+    }
+
+    function openResetModal() {
+      openCustomConfirm(
+        "重設所有練習紀錄？",
+        "這將會清除您所有的作答答案、錯題本與收藏標記，回到初始狀態。",
+        resetAllProgress,
+        "fa-rotate-right"
+      );
+    }
+
+    function resetAllProgress() {
+      userAnswers = {};
+      mistakeIds.clear();
+      starredIds.clear();
+      localStorage.removeItem('p1_answers');
+      localStorage.removeItem('p1_mistakes');
+      localStorage.removeItem('p1_starred');
+      currentIndex = 0;
+      examSubmitted = false;
+      renderApp();
+      showToast("已重置所有刷題進度！", "fa-check");
+    }
+
+    function openCustomConfirm(title, desc, callback, icon = "fa-triangle-exclamation") {
+      document.getElementById('confirmTitle').innerText = title;
+      document.getElementById('confirmDesc').innerText = desc;
+      document.getElementById('confirmIcon').innerHTML = `<i class="fa-solid ${icon}"></i>`;
+      confirmCallback = callback;
+      document.getElementById('confirmModal').classList.remove('hidden');
+      document.getElementById('confirmModal').classList.add('flex');
+    }
+
+    function closeConfirmModal() {
+      document.getElementById('confirmModal').classList.add('hidden');
+      document.getElementById('confirmModal').classList.remove('flex');
+      confirmCallback = null;
+    }
+
+    function runConfirmCallback() {
+      if (confirmCallback) confirmCallback();
+      closeConfirmModal();
+    }
+
+    // Keyboard shortcuts for convenience (Desktop testing)
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') nextQuestion();
+      if (e.key === 'ArrowLeft') prevQuestion();
+    });
+
+    // Boot App on load
+    window.addEventListener('DOMContentLoaded', () => {
+      initTheme();
+      loadStorage();
+      filterQuestions();
+      renderApp();
+    });
+  </script>
+</body>
+</html>
