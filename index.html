@@ -95,21 +95,38 @@
         </button>
       </div>
 
-      <div class="mt-2.5 flex items-center space-x-1.5 overflow-x-auto no-scrollbar py-0.5 text-[11px]">
-        <button onclick="setFilter('all')" class="unit-filter-btn shrink-0 px-2.5 py-1 rounded-full border border-indigo-500 bg-indigo-50 dark:bg-indigo-950/50 text-indigo-600 dark:text-indigo-300 font-medium" data-unit="all">全部 (110)</button>
-        <button onclick="setFilter('u1')" class="unit-filter-btn shrink-0 px-2.5 py-1 rounded-full border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300" data-unit="u1">消防逃生(25)</button>
-        <button onclick="setFilter('u2')" class="unit-filter-btn shrink-0 px-2.5 py-1 rounded-full border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300" data-unit="u2">防情傳遞(20)</button>
-        <button onclick="setFilter('u3')" class="unit-filter-btn shrink-0 px-2.5 py-1 rounded-full border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300" data-unit="u3">替代民防(10)</button>
-        <button onclick="setFilter('u4')" class="unit-filter-btn shrink-0 px-2.5 py-1 rounded-full border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300" data-unit="u4">民防法令(20)</button>
-        <button onclick="setFilter('u5')" class="unit-filter-btn shrink-0 px-2.5 py-1 rounded-full border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300" data-unit="u5">疏散避難(15)</button>
-        <button onclick="setFilter('u6')" class="unit-filter-btn shrink-0 px-2.5 py-1 rounded-full border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300" data-unit="u6">警察勤務(20)</button>
+      <!-- Unit Filters and Shuffle Mode Bar -->
+      <div class="mt-2.5 flex items-center justify-between gap-1.5">
+        <div class="flex items-center space-x-1.5 overflow-x-auto no-scrollbar py-0.5 text-[11px] flex-1">
+          <button onclick="setFilter('all')" class="unit-filter-btn shrink-0 px-2.5 py-1 rounded-full border border-indigo-500 bg-indigo-50 dark:bg-indigo-950/50 text-indigo-600 dark:text-indigo-300 font-medium" data-unit="all">全部 (110)</button>
+          <button onclick="setFilter('u1')" class="unit-filter-btn shrink-0 px-2.5 py-1 rounded-full border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300" data-unit="u1">消防逃生(25)</button>
+          <button onclick="setFilter('u2')" class="unit-filter-btn shrink-0 px-2.5 py-1 rounded-full border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300" data-unit="u2">防情傳遞(20)</button>
+          <button onclick="setFilter('u3')" class="unit-filter-btn shrink-0 px-2.5 py-1 rounded-full border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300" data-unit="u3">替代民防(10)</button>
+          <button onclick="setFilter('u4')" class="unit-filter-btn shrink-0 px-2.5 py-1 rounded-full border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300" data-unit="u4">民防法令(20)</button>
+          <button onclick="setFilter('u5')" class="unit-filter-btn shrink-0 px-2.5 py-1 rounded-full border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300" data-unit="u5">疏散避難(15)</button>
+          <button onclick="setFilter('u6')" class="unit-filter-btn shrink-0 px-2.5 py-1 rounded-full border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300" data-unit="u6">警察勤務(20)</button>
+        </div>
+
+        <!-- Shuffle Action Toggle & Reshuffle Buttons -->
+        <div class="flex items-center space-x-1 shrink-0">
+          <button id="shuffleToggleBtn" onclick="toggleShuffle()" class="px-2.5 py-1 rounded-full border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-semibold text-[11px] flex items-center space-x-1 active:scale-95 transition-all" title="切換隨機/原題號排序">
+            <i class="fa-solid fa-shuffle text-[10px]"></i>
+            <span id="shuffleBtnText">隨機</span>
+          </button>
+          <button id="reshuffleBtn" onclick="reshuffleQuestions()" class="hidden w-7 h-7 rounded-full bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200 dark:border-indigo-800 text-indigo-600 dark:text-indigo-300 flex items-center justify-center text-[10px] active:rotate-180 transition-transform" title="重新洗牌">
+            <i class="fa-solid fa-rotate-right"></i>
+          </button>
+        </div>
       </div>
 
       <!-- Real-time Progress Bar & Stats -->
       <div class="mt-2.5 flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400">
-        <div class="flex items-center space-x-2">
+        <div class="flex items-center space-x-1.5">
           <span id="progressText" class="font-bold text-slate-700 dark:text-slate-200">第 1 / 110 題</span>
           <span id="modeBadgeText" class="px-1.5 py-0.5 rounded bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300 text-[10px]">即時回饋</span>
+          <span id="shuffleIndicator" class="hidden px-1.5 py-0.5 rounded bg-indigo-100 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 text-[10px] font-semibold flex items-center">
+            <i class="fa-solid fa-shuffle mr-0.5 text-[9px]"></i>隨機
+          </span>
         </div>
         <div class="flex items-center space-x-2">
           <span>正確率: <strong id="accuracyRate" class="text-indigo-600 dark:text-indigo-400 font-bold">0%</strong></span>
@@ -137,12 +154,16 @@
         
         <!-- Question Unit & Type Header Tags -->
         <div class="flex items-center justify-between mb-2">
-          <div class="flex items-center space-x-1.5">
+          <div class="flex items-center space-x-1.5 flex-wrap gap-y-1">
             <span id="badgeCategory" class="text-[11px] font-medium px-2 py-0.5 rounded-full bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800/60">
               消防專業課程
             </span>
             <span id="badgeType" class="text-[11px] font-medium px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
               是非題
+            </span>
+            <!-- Original PDF Question Number Badge (helpful when in shuffle mode) -->
+            <span id="badgeOriginalNo" class="hidden text-[10px] font-medium px-2 py-0.5 rounded-full bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-800/60">
+              原題 #1
             </span>
           </div>
           <button id="starBtn" onclick="toggleCurrentStar()" class="p-1.5 text-slate-300 dark:text-slate-600 hover:text-amber-500 transition-colors">
@@ -244,6 +265,67 @@
           </button>
         </div>
 
+      </div>
+    </div>
+
+    <!-- Exam Setup Modal (Custom settings before starting mock test) -->
+    <div id="examSetupModal" class="fixed inset-0 bg-black/60 z-50 hidden items-center justify-center p-4">
+      <div class="bg-white dark:bg-slate-900 rounded-2xl max-w-sm w-full p-5 shadow-2xl">
+        <div class="text-center mb-4">
+          <div class="w-12 h-12 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 flex items-center justify-center mx-auto text-xl mb-2">
+            <i class="fa-solid fa-sliders"></i>
+          </div>
+          <h3 class="text-base font-bold text-slate-800 dark:text-white">全真模擬測驗設定</h3>
+          <p class="text-xs text-slate-500 dark:text-slate-400">可自訂題數與隨機順序，測驗結束後統一結算成績</p>
+        </div>
+
+        <div class="space-y-3.5 mb-5 text-xs">
+          <!-- Question Quantity Selection -->
+          <div>
+            <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1.5">抽題數量</label>
+            <div class="grid grid-cols-3 gap-2">
+              <button type="button" onclick="selectExamCount(25)" id="examCount-25" class="exam-count-btn py-2 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-center font-semibold">
+                25 題<span class="block text-[10px] font-normal text-slate-400">快速測驗</span>
+              </button>
+              <button type="button" onclick="selectExamCount(50)" id="examCount-50" class="exam-count-btn py-2 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-center font-semibold">
+                50 題<span class="block text-[10px] font-normal text-slate-400">半套模擬</span>
+              </button>
+              <button type="button" onclick="selectExamCount('all')" id="examCount-all" class="exam-count-btn py-2 rounded-xl border-2 border-indigo-600 bg-indigo-50 dark:bg-indigo-950/50 text-indigo-600 dark:text-indigo-300 text-center font-bold">
+                全部<span class="block text-[10px] font-normal text-indigo-500">完整題庫</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Question Order Mode Selection -->
+          <div>
+            <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1.5">題目順序</label>
+            <div class="grid grid-cols-2 gap-2">
+              <button type="button" onclick="selectExamShuffle(true)" id="examShuffle-true" class="exam-shuffle-btn py-2 px-3 rounded-xl border-2 border-indigo-600 bg-indigo-50 dark:bg-indigo-950/50 text-indigo-600 dark:text-indigo-300 font-bold flex items-center justify-center space-x-1.5">
+                <i class="fa-solid fa-shuffle"></i>
+                <span>隨機洗牌</span>
+              </button>
+              <button type="button" onclick="selectExamShuffle(false)" id="examShuffle-false" class="exam-shuffle-btn py-2 px-3 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-semibold flex items-center justify-center space-x-1.5">
+                <i class="fa-solid fa-arrow-down-1-9"></i>
+                <span>依原本題號</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Unit Scope Notice -->
+          <div class="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-[11px] text-slate-500 dark:text-slate-400 flex items-center space-x-2">
+            <i class="fa-solid fa-circle-info text-indigo-500 text-sm"></i>
+            <span>目前出題單元：<strong id="examUnitNotice" class="text-slate-700 dark:text-slate-200">全部單元 (110題)</strong></span>
+          </div>
+        </div>
+
+        <div class="flex space-x-2">
+          <button onclick="closeExamSetupModal()" class="flex-1 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-semibold text-xs transition-colors">
+            取消
+          </button>
+          <button onclick="startCustomExam()" class="flex-1 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs shadow-md shadow-indigo-600/20 active:scale-95 transition-all">
+            開始測驗
+          </button>
+        </div>
       </div>
     </div>
 
@@ -1677,9 +1759,17 @@
       }
     ];
 
+    // Assign original order index (1..110) for reference during shuffle mode
+    QUESTIONS.forEach((q, idx) => {
+      q.originalIndex = idx + 1;
+    });
+
     // App State
     let currentFilter = 'all';
     let currentMode = 'practice'; // 'practice' | 'exam' | 'mistakes' | 'starred'
+    let isShuffle = false;
+    let examCountSetting = 'all'; // 25 | 50 | 'all'
+    let examShuffleSetting = true;
     let filteredQuestions = [...QUESTIONS];
     let currentIndex = 0;
     let userAnswers = {}; // { questionId: selectedOptionIndex }
@@ -1687,6 +1777,16 @@
     let starredIds = new Set();
     let examSubmitted = false;
     let confirmCallback = null;
+
+    // Fisher-Yates array shuffling implementation
+    function fisherYatesShuffle(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
 
     // Load persisted state from localStorage
     function loadStorage() {
@@ -1697,6 +1797,8 @@
         if (savedMistakes) mistakeIds = new Set(JSON.parse(savedMistakes));
         const savedAnswers = localStorage.getItem('p1_answers');
         if (savedAnswers) userAnswers = JSON.parse(savedAnswers);
+        const savedShuffle = localStorage.getItem('p1_shuffle');
+        if (savedShuffle !== null) isShuffle = savedShuffle === 'true';
       } catch (e) {
         console.warn("LocalStorage access error:", e);
       }
@@ -1707,6 +1809,7 @@
         localStorage.setItem('p1_starred', JSON.stringify([...starredIds]));
         localStorage.setItem('p1_mistakes', JSON.stringify([...mistakeIds]));
         localStorage.setItem('p1_answers', JSON.stringify(userAnswers));
+        localStorage.setItem('p1_shuffle', isShuffle ? 'true' : 'false');
       } catch (e) {
         console.warn("LocalStorage save error:", e);
       }
@@ -1744,8 +1847,9 @@
       }, 1800);
     }
 
+    // Filter questions based on unit, mode and shuffle status
     function filterQuestions() {
-      filteredQuestions = QUESTIONS.filter(q => {
+      let list = QUESTIONS.filter(q => {
         // Unit Filter
         if (currentFilter !== 'all' && q.unit !== currentFilter) return false;
         // Mode Specific Filter
@@ -1754,8 +1858,71 @@
         return true;
       });
 
+      // Handle Exam Count Slice & Shuffle
+      if (currentMode === 'exam' && examCountSetting !== 'all') {
+        const count = parseInt(examCountSetting, 10);
+        if (isShuffle) {
+          list = fisherYatesShuffle(list).slice(0, count);
+        } else {
+          list = list.slice(0, count);
+        }
+      } else if (isShuffle) {
+        list = fisherYatesShuffle(list);
+      }
+
+      filteredQuestions = list;
+
       if (currentIndex >= filteredQuestions.length) {
         currentIndex = Math.max(0, filteredQuestions.length - 1);
+      }
+
+      updateShuffleUI();
+    }
+
+    // Toggle Shuffle Mode
+    function toggleShuffle() {
+      isShuffle = !isShuffle;
+      saveStorage();
+      currentIndex = 0;
+      filterQuestions();
+      renderApp();
+
+      if (isShuffle) {
+        showToast("已開啟隨機題序（洗牌）", "fa-shuffle");
+      } else {
+        showToast("已恢復原始題號順序", "fa-arrow-down-1-9");
+      }
+    }
+
+    // Reshuffle questions (when in shuffle mode)
+    function reshuffleQuestions() {
+      if (!isShuffle) {
+        isShuffle = true;
+        saveStorage();
+      }
+      currentIndex = 0;
+      filterQuestions();
+      renderApp();
+      showToast("題目已重新隨機洗牌！", "fa-shuffle");
+    }
+
+    // Update shuffle-related UI buttons and indicators
+    function updateShuffleUI() {
+      const toggleBtn = document.getElementById('shuffleToggleBtn');
+      const toggleText = document.getElementById('shuffleBtnText');
+      const reshuffleBtn = document.getElementById('reshuffleBtn');
+      const indicator = document.getElementById('shuffleIndicator');
+
+      if (isShuffle) {
+        toggleBtn.className = "px-2.5 py-1 rounded-full border border-indigo-500 bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-300 font-bold text-[11px] flex items-center space-x-1 active:scale-95 transition-all shadow-sm";
+        toggleText.innerText = "隨機中";
+        reshuffleBtn.classList.remove('hidden');
+        indicator.classList.remove('hidden');
+      } else {
+        toggleBtn.className = "px-2.5 py-1 rounded-full border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-semibold text-[11px] flex items-center space-x-1 active:scale-95 transition-all";
+        toggleText.innerText = "依題號";
+        reshuffleBtn.classList.add('hidden');
+        indicator.classList.add('hidden');
       }
     }
 
@@ -1774,6 +1941,11 @@
     }
 
     function switchMode(mode) {
+      if (mode === 'exam' && currentMode !== 'exam') {
+        openExamSetupModal();
+        return;
+      }
+
       currentMode = mode;
       examSubmitted = false;
       currentIndex = 0;
@@ -1810,6 +1982,81 @@
       filterQuestions();
       renderApp();
       showToast(`已切換至「${badgeMap[mode]}」`, 'fa-arrows-rotate');
+    }
+
+    // Open Exam Setup Modal
+    function openExamSetupModal() {
+      const unitNames = {
+        all: "全部單元 (110題)",
+        u1: "消防專業課程 (25題)",
+        u2: "防情傳遞測驗 (20題)",
+        u3: "替代役民防役 (10題)",
+        u4: "基礎民防法令 (20題)",
+        u5: "防空疏散避難 (15題)",
+        u6: "警察勤務與協勤 (20題)"
+      };
+      document.getElementById('examUnitNotice').innerText = unitNames[currentFilter] || "全部單元";
+      selectExamCount(examCountSetting);
+      selectExamShuffle(examShuffleSetting);
+      document.getElementById('examSetupModal').classList.remove('hidden');
+      document.getElementById('examSetupModal').classList.add('flex');
+    }
+
+    function closeExamSetupModal() {
+      document.getElementById('examSetupModal').classList.add('hidden');
+      document.getElementById('examSetupModal').classList.remove('flex');
+    }
+
+    function selectExamCount(count) {
+      examCountSetting = count;
+      ['25', '50', 'all'].forEach(c => {
+        const btn = document.getElementById(`examCount-${c}`);
+        if (c === String(count)) {
+          btn.className = "exam-count-btn py-2 rounded-xl border-2 border-indigo-600 bg-indigo-50 dark:bg-indigo-950/50 text-indigo-600 dark:text-indigo-300 text-center font-bold";
+        } else {
+          btn.className = "exam-count-btn py-2 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-center font-semibold";
+        }
+      });
+    }
+
+    function selectExamShuffle(shuffleBool) {
+      examShuffleSetting = shuffleBool;
+      const trueBtn = document.getElementById('examShuffle-true');
+      const falseBtn = document.getElementById('examShuffle-false');
+      if (shuffleBool) {
+        trueBtn.className = "exam-shuffle-btn py-2 px-3 rounded-xl border-2 border-indigo-600 bg-indigo-50 dark:bg-indigo-950/50 text-indigo-600 dark:text-indigo-300 font-bold flex items-center justify-center space-x-1.5";
+        falseBtn.className = "exam-shuffle-btn py-2 px-3 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-semibold flex items-center justify-center space-x-1.5";
+      } else {
+        falseBtn.className = "exam-shuffle-btn py-2 px-3 rounded-xl border-2 border-indigo-600 bg-indigo-50 dark:bg-indigo-950/50 text-indigo-600 dark:text-indigo-300 font-bold flex items-center justify-center space-x-1.5";
+        trueBtn.className = "exam-shuffle-btn py-2 px-3 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-semibold flex items-center justify-center space-x-1.5";
+      }
+    }
+
+    function startCustomExam() {
+      closeExamSetupModal();
+      currentMode = 'exam';
+      isShuffle = examShuffleSetting;
+      examSubmitted = false;
+      currentIndex = 0;
+
+      // Clear answers for the exam run
+      userAnswers = {};
+
+      ['practice', 'exam', 'mistakes', 'starred'].forEach(m => {
+        const btn = document.getElementById(`mode-${m}`);
+        if (m === 'exam') {
+          btn.className = "py-1.5 rounded-lg text-center transition-all bg-white dark:bg-slate-700 shadow-sm text-indigo-600 dark:text-indigo-300 font-bold";
+        } else {
+          btn.className = "py-1.5 rounded-lg text-center transition-all text-slate-600 dark:text-slate-300 font-normal";
+        }
+      });
+
+      document.getElementById('modeBadgeText').innerText = `全真測驗 (${examCountSetting === 'all' ? '全部' : examCountSetting + '題'})`;
+      document.getElementById('submitExamBtn').classList.remove('hidden');
+
+      filterQuestions();
+      renderApp();
+      showToast(`模擬測驗已開始（${filteredQuestions.length} 題）！`, "fa-clipboard-check");
     }
 
     function renderApp() {
@@ -1852,11 +2099,21 @@
       // Update Headers
       document.getElementById('badgeCategory').innerText = q.unitName;
       document.getElementById('badgeType').innerText = q.type === 'tf' ? '是非題' : '選擇題';
+
+      // Show/hide original PDF question number in shuffle mode
+      const badgeOriginalNo = document.getElementById('badgeOriginalNo');
+      if (isShuffle && q.originalIndex) {
+        badgeOriginalNo.innerText = `原第 ${q.originalIndex} 題`;
+        badgeOriginalNo.classList.remove('hidden');
+      } else {
+        badgeOriginalNo.classList.add('hidden');
+      }
+
       document.getElementById('questionPrompt').innerText = `${currentIndex + 1}. ${q.prompt}`;
 
       // Star Icon
       const starBtn = document.getElementById('starBtn');
-      starBtn.innerHTML = `<i class="${isStarred ? 'fa-solid text-amber-500' : 'fa-regular text-slate-300 dark:text-slate-600'} fa-star text-xl"></i>`;
+      starBtn.innerHTML = `<i class="${isStarred ? 'fa-solid text-amber-500' : 'fa-regular text-slate-300 dark:text-slate-600'} fa-star text-lg"></i>`;
 
       // Render Options
       const optionsContainer = document.getElementById('optionsContainer');
@@ -1871,7 +2128,6 @@
           labelIcon = optIdx === 0 ? '<span class="font-bold text-emerald-600 dark:text-emerald-400 mr-1.5">[ 正確 ]</span>' : '<span class="font-bold text-rose-500 mr-1.5">[ 錯誤 ]</span>';
         }
 
-        // Logic for Option Display based on mode & answered state
         const isSelected = userAnswer === optIdx;
         const isCorrect = q.answer === optIdx;
 
@@ -1945,23 +2201,17 @@
 
     function handleSelectOption(optIdx) {
       const q = filteredQuestions[currentIndex];
-      
-      // Save Answer
       userAnswers[q.id] = optIdx;
 
-      // If in practice mode or mistake mode: verify immediately
       if (currentMode === 'practice' || currentMode === 'mistakes' || currentMode === 'starred') {
         if (optIdx === q.answer) {
-          // Correct
           if (mistakeIds.has(q.id)) {
-            // Remove from mistakes once answered correctly
             mistakeIds.delete(q.id);
             showToast("答對了！已自錯題庫移除", "fa-circle-check");
           } else {
             showToast("答對了！太棒了", "fa-check");
           }
         } else {
-          // Wrong
           mistakeIds.add(q.id);
           showToast("答錯了！已收入錯題專區", "fa-xmark");
         }
@@ -2035,6 +2285,7 @@
       document.getElementById('accuracyRate').innerText = `${rate}%`;
     }
 
+    // Open Quick Navigator Drawer
     function openDrawer() {
       const grid = document.getElementById('drawerGrid');
       grid.innerHTML = '';
@@ -2064,8 +2315,11 @@
           renderApp();
         };
 
+        const subText = isShuffle && q.originalIndex ? `<span class="text-[9px] opacity-75 font-normal">#${q.originalIndex}</span>` : '';
+
         cell.innerHTML = `
           <span>${idx + 1}</span>
+          ${subText}
           ${isStarred ? '<span class="absolute top-1 right-1 text-[8px] text-amber-300"><i class="fa-solid fa-star"></i></span>' : ''}
         `;
         grid.appendChild(cell);
@@ -2128,15 +2382,7 @@
 
     function retryExam() {
       closeResultModal();
-      // Clear answers in current set
-      filteredQuestions.forEach(q => {
-        delete userAnswers[q.id];
-      });
-      saveStorage();
-      currentIndex = 0;
-      examSubmitted = false;
-      renderApp();
-      showToast("測驗已重新開始！", "fa-rotate-left");
+      openExamSetupModal();
     }
 
     function closeResultModal() {
@@ -2186,7 +2432,7 @@
       closeConfirmModal();
     }
 
-    // Keyboard shortcuts for convenience (Desktop testing)
+    // Keyboard shortcuts for convenience
     window.addEventListener('keydown', (e) => {
       if (e.key === 'ArrowRight') nextQuestion();
       if (e.key === 'ArrowLeft') prevQuestion();
